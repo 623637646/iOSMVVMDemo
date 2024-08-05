@@ -11,14 +11,13 @@ import Combine
 import UIKit
 
 /// Protocol for view components that handle input events and provide output event notifications.
-/// Usually, views do not need to conform to StateObservable.
 protocol ViewProvidable: UIView, InputEventHandler, OutputEventObservable {}
 
 /// A Base View
 class BaseView<InputEventType, OutputEventType>: UIView, ViewProvidable {
     
     // It should be internal. These values ​​can only be submited internally.
-    internal let outputEventSubject = PassthroughSubject<OutputEventType, Never>()
+    let outputEventSubject = PassthroughSubject<OutputEventType, Never>()
     
     // MARK: OutputEventObservable
     var outputEventPublisher: AnyPublisher<OutputEventType, Never> {

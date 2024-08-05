@@ -16,26 +16,9 @@ protocol InputEventHandler {
     func handleInputEvent(_ value: InputEventType)
 }
 
-/// Protocol for providing a publisher to notify external subscribers about events.
+/// Protocol for providing a publisher to notify external subscribers about events .
 protocol OutputEventObservable {
     associatedtype OutputEventType
     // Publisher for notifying external subscribers about events.
     var outputEventPublisher: AnyPublisher<OutputEventType, Never> { get }
-}
-
-/// Protocol for providing a publisher to notify external subscribers about state changes.
-/// Note: State notifications are different from event notifications.
-/// 1. State notifications are immediately available when observed, similar to CurrentValueSubject.
-/// 2. Event notifications are triggered by specific occurrences, similar to PassthroughSubject.
-protocol StateObservable {
-    associatedtype StateType
-    // List of publishers for state changes.
-    var stateList: [AnyPublisher<StateType, Never>] { get }
-}
-
-extension StateObservable {
-    // Combined publisher for state changes.
-    var statePublisher: AnyPublisher<StateType, Never> {
-        Publishers.MergeMany(stateList).eraseToAnyPublisher()
-    }
 }

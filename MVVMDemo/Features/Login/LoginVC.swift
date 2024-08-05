@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 
+// TODO: use LoginViewModelProvidable instead of LoginViewModel?
 class LoginVC: BaseViewController<LoginView, LoginViewModel> {
     
     init() {
@@ -23,8 +24,14 @@ class LoginVC: BaseViewController<LoginView, LoginViewModel> {
         LoginView(frame: frame)
     }
     
-    override func handleViewModelOutputEvent(event: LoginViewModelOutputEvent) {
+    override func handleViewModelOutputEvent(event: LoginViewModelOutputEvent, view: LoginView) {
         switch event {
+        case .updateLoginButtonEnabled(value: let value):
+            view.handleInputEvent(.loginButtonIsEnabled(value: value))
+        case .updateLoginButtonHidden(value: let value):
+            view.handleInputEvent(.loginButtonIsHidden(value: value))
+        case .updateLoadingViewHidden(value: let value):
+            view.handleInputEvent(.loadingViewIsHidden(value: value))
         case .showAlert(value: let value):
             let alert = UIAlertController(title: "Error", message: value, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .cancel))
@@ -38,18 +45,7 @@ class LoginVC: BaseViewController<LoginView, LoginViewModel> {
             self.present(nextPage, animated: true)
         }
     }
-    
-    override func handleViewModelStateUpdated(state: LoginViewModelState, view: LoginView) {
-        switch state {
-        case .isLoginButtonEnabled(value: let value):
-            // Bind ViewModel state changes to View updates.
-            view.handleInputEvent(.loginButtonIsEnabled(value: value))
-        case .isLoading(value: let value):
-            view.handleInputEvent(.loginButtonIsHidden(value: value)) // hide login button when loading
-            view.handleInputEvent(.loadingViewIsHidden(value: !value))
-        }
-    }
-    
+        
     override func handleViewOutputEvent(event: LoginViewOutputEvent, viewModel: LoginViewModel) {
         switch event {
         case .usernameChanged(value: let value):

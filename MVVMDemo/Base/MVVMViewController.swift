@@ -48,14 +48,8 @@ class BaseViewController<ViewType, ViewModelType>: UIViewController where ViewTy
 
         // Bind the output events of ViewModel
         viewModel.outputEventPublisher.sink { [weak self] value in
-            guard let self else { return }
-            self.handleViewModelOutputEvent(event: value)
-        }.store(in: &cancellables)
-        
-        // Bind the state of ViewModel
-        viewModel.statePublisher.sink { [weak self] value in
             guard let self, let view = self.contentView else { return }
-            self.handleViewModelStateUpdated(state: value, view: view)
+            self.handleViewModelOutputEvent(event: value, view: view)
         }.store(in: &cancellables)
         
         // Bind the output events of View
@@ -74,11 +68,7 @@ class BaseViewController<ViewType, ViewModelType>: UIViewController where ViewTy
         fatalError("Don't call this method. Subclass have to override this method.")
     }
     
-    func handleViewModelOutputEvent(event: ViewModelType.OutputEventType) {
-        // Subclass Override
-    }
-    
-    func handleViewModelStateUpdated(state: ViewModelType.StateType, view: ViewType){
+    func handleViewModelOutputEvent(event: ViewModelType.OutputEventType, view: ViewType) {
         // Subclass Override
     }
     

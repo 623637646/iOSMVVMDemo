@@ -16,18 +16,16 @@ enum LoginViewModelInputEvent {
 }
 
 enum LoginViewModelOutputEvent {
+    case updateLoginButtonEnabled(value: Bool)
+    case updateLoginButtonHidden(value: Bool)
+    case updateLoadingViewHidden(value: Bool)
     case showAlert(value: String)
     case presentToNextPage
 }
 
-enum LoginViewModelState {
-    case isLoginButtonEnabled(value: Bool)
-    case isLoading(value: Bool)
-}
-
-class LoginViewModel: BaseViewModel<LoginViewModelInputEvent, LoginViewModelOutputEvent, LoginViewModelState, LoginModelProvidable> {
+class LoginViewModel: BaseViewModel<LoginViewModelInputEvent, LoginViewModelOutputEvent, LoginModelProvidable> {
     
-    // Subjects, should be private. These values ​​can only be changed internally.
+    // Subjects, should be private. These values ​​can only be changed privately.
     private let usernameSubject = CurrentValueSubject<String, Never>("")
     private let passwordSubject = CurrentValueSubject<String, Never>("")
     private let showLoadingSubject = CurrentValueSubject<Bool, Never>(false)
@@ -47,24 +45,25 @@ class LoginViewModel: BaseViewModel<LoginViewModelInputEvent, LoginViewModelOutp
             Task { @MainActor in
                 do {
                     try await self.model.login(username: self.usernameSubject.value, password: self.passwordSubject.value)
-                    self.outputEventSubject.send(.presentToNextPage)
+                    self.actionSubject.send(.presentToNextPage)
                 } catch LoginError.usernameOrPasswordIsWrong {
-                    self.outputEventSubject.send(.showAlert(value: "Username or Password is incorrect!"))
+                    self.actionSubject.send(.showAlert(value: "Username or Password is incorrect!"))
                 } catch {
                     assertionFailure()
-                    self.outputEventSubject.send(.showAlert(value: error.localizedDescription))
+                    self.actionSubject.send(.showAlert(value: error.localizedDescription))
                 }
                 self.showLoadingSubject.value = false
             }
         }
     }
     
-    override var stateList: [AnyPublisher<LoginViewModelState, Never>] {
-        let loginButtonIsEnabled = usernameSubject.combineLatest(passwordSubject).map { (username, password) in
+    override var stateList: [AnyPublisher<LoginViewModelOutputEvent, Never>] {
+        let updateLoginButtonEnabled = usernameSubject.combineLatest(passwordSubject).map { (username, password) in
             // Enable login button only when both username and password are non-empty.
-            LoginViewModelState.isLoginButtonEnabled(value: !username.isEmpty && !password.isEmpty)
+            LoginViewModelOutputEvent.updateLoginButtonEnabled(value: !username.isEmpty && !password.isEmpty)
         }.eraseToAnyPublisher()
-        let showLoading = showLoadingSubject.map { LoginViewModelState.isLoading(value: $0) }.eraseToAnyPublisher()
-        return [loginButtonIsEnabled, showLoading]
+        let updateLoginButtonHidden = showLoadingSubject.map { LoginViewModelOutputEvent.updateLoginButtonHidden(value: $0) }.eraseToAnyPublisher()
+        let updateLoadingViewHidden = showLoadingSubject.map { LoginViewModelOutputEvent.updateLoadingViewHidden(value: !$0) }.eraseToAnyPublisher()
+        return [updateLoginButtonEnabled, updateLoginButtonHidden, updateLoadingViewHidden]
     }
 }
