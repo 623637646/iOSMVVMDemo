@@ -10,8 +10,13 @@ import Foundation
 import Combine
 import UIKit
 
-class BaseViewController<ViewType, ViewModelType>: UIViewController where ViewType: ViewProvidable, ViewModelType: ViewModelProvidable {
-
+class BaseViewController<ViewType, ViewModelType>: UIViewController
+where ViewType: ViewProvidable,
+      ViewModelType: ViewModelProvidable,
+      ViewType.InputEventType == ViewModelType.OutputEventType,
+      ViewType.OutputEventType == ViewModelType.InputEventType
+{
+    
     private let viewModel: ViewModelType
     
     // We use weak here, because the system may release the views to save memory. Normally we drag some views of a StoryBoard into viewController, it will be weak. So this is recommend by Apple.
@@ -41,11 +46,11 @@ class BaseViewController<ViewType, ViewModelType>: UIViewController where ViewTy
         self.view.addSubview(view)
         self.contentView = view
     }
-
+    
     private func bind() {
         // Clear existing bindings.
         cancellables.removeAll()
-
+        
         // Bind the output events of ViewModel
         viewModel.outputEventPublisher.sink { [weak self] value in
             assert(Thread.isMainThread)

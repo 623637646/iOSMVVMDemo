@@ -21,9 +21,6 @@ protocol ViewModelProvidable: InputEventHandler, OutputEventObservable {
     // Publisher for notifying external subscribers about actions.
     var actionPublisher: AnyPublisher<OutputEventType, Never> { get }
     
-    // Send action event
-    func sendActionEvent(event: OutputEventType)
-    
     // List of publishers for state changes.
     var stateList: [AnyPublisher<OutputEventType, Never>] { get }
 }
@@ -34,6 +31,7 @@ extension ViewModelProvidable {
         self.model = model
     }
     
+    // MARK: OutputEventObservable
     // Combined publisher for state and action notifications.
     var outputEventPublisher: AnyPublisher<OutputEventType, Never> {
         Publishers.MergeMany(stateList).merge(with: actionPublisher).eraseToAnyPublisher()
@@ -52,13 +50,13 @@ class BaseViewModel<InputEventType, OutputEventType, ModelType>: ViewModelProvid
     init(model: ModelType) {
         self.model = model
     }
-    
-    // MARK: ViewModelProvidable
-    
+        
     func sendActionEvent(event: OutputEventType){
         actionSubject.send(event)
     }
-        
+    
+    // MARK: ViewModelProvidable
+
     var actionPublisher: AnyPublisher<OutputEventType, Never> {
         actionSubject.eraseToAnyPublisher()
     }
@@ -68,6 +66,8 @@ class BaseViewModel<InputEventType, OutputEventType, ModelType>: ViewModelProvid
         []
     }
 
+    // MARK: InputEventHandler
+    
     func handleInputEvent(_ value: InputEventType) {
         // Subclass Override
     }

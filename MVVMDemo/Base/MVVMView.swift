@@ -12,7 +12,6 @@ import UIKit
 
 /// Protocol for view components that handle input events and provide output event notifications.
 protocol ViewProvidable: UIView, InputEventHandler, OutputEventObservable {
-    func sendOutputEvent(event: OutputEventType)
 }
 
 /// A Base View
@@ -21,7 +20,6 @@ class BaseView<InputEventType, OutputEventType>: UIView, ViewProvidable {
     // It should be private. These values ​​can only be submited privately.
     private let outputEventSubject = PassthroughSubject<OutputEventType, Never>()
     
-    // MARK: ViewProvidable
     func sendOutputEvent(event: OutputEventType) {
         outputEventSubject.send(event)
     }

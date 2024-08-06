@@ -27,18 +27,18 @@ class LoginViewModel: BaseViewModel<LoginViewModelInputEvent, LoginViewModelOutp
     
     // State
     
-    private var loginButtonEnabledPublisher: AnyPublisher<Bool, Never> {
+    private var loginButtonEnabledState: AnyPublisher<Bool, Never> {
         return model.usernameSubject.combineLatest(model.passwordSubject).map { (username, password) in
             // Enable login button only when both username and password are non-empty.
             return !username.isEmpty && !password.isEmpty
         }.eraseToAnyPublisher()
     }
     
-    private var loginButtonHiddenPublisher: AnyPublisher<Bool, Never> {
+    private var loginButtonHiddenState: AnyPublisher<Bool, Never> {
         return loadingSubject.eraseToAnyPublisher()
     }
     
-    private var loadingViewHiddenPublisher: AnyPublisher<Bool, Never> {
+    private var loadingViewHiddenState: AnyPublisher<Bool, Never> {
         return loadingSubject.map({ !$0 }).eraseToAnyPublisher()
     }
     
@@ -75,13 +75,13 @@ class LoginViewModel: BaseViewModel<LoginViewModelInputEvent, LoginViewModelOutp
     
     override var stateList: [AnyPublisher<LoginViewModelOutputEvent, Never>] {
         return [
-            loginButtonEnabledPublisher.map({
+            loginButtonEnabledState.map({
                 LoginViewModelOutputEvent.updateLoginButtonEnabled(value: $0)
             }).eraseToAnyPublisher(),
-            loginButtonHiddenPublisher.map({ 
+            loginButtonHiddenState.map({ 
                 LoginViewModelOutputEvent.updateLoginButtonHidden(value: $0)
             }).eraseToAnyPublisher(),
-            loadingViewHiddenPublisher.map({ 
+            loadingViewHiddenState.map({ 
                 LoginViewModelOutputEvent.updateLoadingViewHidden(value: $0)
             }).eraseToAnyPublisher(),
         ]
