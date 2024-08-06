@@ -18,7 +18,7 @@
 		A0F8EBCD2C60C7DA00A4499E /* MVVMDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F8EBCC2C60C7DA00A4499E /* MVVMDemoTests.swift */; };
 		A0F8EBEA2C60C87D00A4499E /* MVVMView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F8EBE62C60C87D00A4499E /* MVVMView.swift */; };
 		A0F8EBEB2C60C87D00A4499E /* MVVMViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F8EBE72C60C87D00A4499E /* MVVMViewController.swift */; };
-		A0F8EBEC2C60C87D00A4499E /* MVVMProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F8EBE82C60C87D00A4499E /* MVVMProtocol.swift */; };
+		A0F8EBEC2C60C87D00A4499E /* MVVMEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F8EBE82C60C87D00A4499E /* MVVMEvent.swift */; };
 		A0F8EBED2C60C87D00A4499E /* MVVMViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F8EBE92C60C87D00A4499E /* MVVMViewModel.swift */; };
 		A0F8EBF52C60D31400A4499E /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F8EBF02C60D31400A4499E /* LoginModel.swift */; };
 		A0F8EBF62C60D31400A4499E /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F8EBF12C60D31400A4499E /* LoginView.swift */; };
@@ -54,7 +54,7 @@
 		A0F8EBCC2C60C7DA00A4499E /* MVVMDemoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MVVMDemoTests.swift; sourceTree = "<group>"; };
 		A0F8EBE62C60C87D00A4499E /* MVVMView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MVVMView.swift; sourceTree = "<group>"; };
 		A0F8EBE72C60C87D00A4499E /* MVVMViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MVVMViewController.swift; sourceTree = "<group>"; };
-		A0F8EBE82C60C87D00A4499E /* MVVMProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MVVMProtocol.swift; sourceTree = "<group>"; };
+		A0F8EBE82C60C87D00A4499E /* MVVMEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MVVMEvent.swift; sourceTree = "<group>"; };
 		A0F8EBE92C60C87D00A4499E /* MVVMViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MVVMViewModel.swift; sourceTree = "<group>"; };
 		A0F8EBF02C60D31400A4499E /* LoginModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
 		A0F8EBF12C60D31400A4499E /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -147,7 +147,7 @@
 		A0F8EBE52C60C87D00A4499E /* Base */ = {
 			isa = PBXGroup;
 			children = (
-				A0F8EBE82C60C87D00A4499E /* MVVMProtocol.swift */,
+				A0F8EBE82C60C87D00A4499E /* MVVMEvent.swift */,
 				A0F8EBE62C60C87D00A4499E /* MVVMView.swift */,
 				A0F8EBE92C60C87D00A4499E /* MVVMViewModel.swift */,
 				A0F8EBE72C60C87D00A4499E /* MVVMViewController.swift */,
@@ -298,7 +298,7 @@
 				A0F8EC022C60E0C400A4499E /* PayModel.swift in Sources */,
 				A0F8EBBA2C60C7D900A4499E /* ViewController.swift in Sources */,
 				A0F1FE8F2C6122330037738F /* NetworkManager.swift in Sources */,
-				A0F8EBEC2C60C87D00A4499E /* MVVMProtocol.swift in Sources */,
+				A0F8EBEC2C60C87D00A4499E /* MVVMEvent.swift in Sources */,
 				A0F8EBEB2C60C87D00A4499E /* MVVMViewController.swift in Sources */,
 				A0F8EBFE2C60E0B100A4499E /* PayView.swift in Sources */,
 				A0F8EBB62C60C7D900A4499E /* AppDelegate.swift in Sources */,
