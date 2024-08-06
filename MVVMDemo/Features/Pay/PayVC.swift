@@ -29,10 +29,12 @@ class PayVC: BaseViewController<PayView, PayVM> {
     
     override func handleViewModelOutputEvent(event: PayVMOutputEvent) {
         switch event {
-        case .didContactUpdate(email: let email):
-            sendInputEventToView(event: .didContactUpdate(email: email))
-        case .didAmountUpdate(number: let number):
-            sendInputEventToView(event: .didAmountUpdate(number: number))
+        case .contactUpdated(email: let email):
+            sendInputEventToView(event: .contactUpdated(email: email))
+        case .amountUpdated(number: let number):
+            sendInputEventToView(event: .amountUpdated(number: number))
+        case .payButtonIsEnabledUpdated(isEnabled: let isEnabled):
+            sendInputEventToView(event: .payButtonIsEnabledUpdated(isEnabled: isEnabled))
         case .navigateToQRCodePage:
             let vc = UIViewController()
             vc.view.backgroundColor = .white
@@ -41,10 +43,10 @@ class PayVC: BaseViewController<PayView, PayVM> {
             let vc = UIViewController()
             vc.view.backgroundColor = .white
             self.navigationController?.pushViewController(vc, animated: true)
-        case .navigateToPreviewPage:
-            let vc = UIViewController()
-            vc.view.backgroundColor = .white
-            self.navigationController?.pushViewController(vc, animated: true)
+        case .navigateToPreviewPage(let amount):
+            let vc = UIAlertController(title: "Review Payment", message: "Amount: \(amount)", preferredStyle: .alert)
+            vc.addAction(.init(title: "OK", style: .cancel))
+            self.present(vc, animated: true)
         }
     }
     

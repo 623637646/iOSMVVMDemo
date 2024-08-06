@@ -38,8 +38,9 @@ class KeyboardButton: UIButton {
         case .number0:
             self.setTitle("0", for: .normal)
         case .delete:
-            self.setTitle("␡", for: .normal)
+            self.setTitle("DEL", for: .normal)
         }
+        self.titleLabel?.font = UIFont.boldSystemFont(ofSize: 24)
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -140,6 +141,7 @@ class PayView: BaseView<PayVMOutputEvent, PayVMInputEvent> {
         self.addSubview(payButton)
         payButton.setTitle("Pay", for: .normal)
         payButton.setTitleColor(.black, for: .normal)
+        payButton.setTitleColor(.lightGray, for: .disabled)
         payButton.backgroundColor = .white
         payButton.addTarget(self, action: #selector(payButtonClicked), for: .touchUpInside)
         payButton.snp.makeConstraints { make in
@@ -149,24 +151,26 @@ class PayView: BaseView<PayVMOutputEvent, PayVMInputEvent> {
         }
     }
     
-    @objc private func keyboardButtonClicked(sender: KeyboardButton){
+    @objc private func keyboardButtonClicked(sender: KeyboardButton) {
         sendOutputEvent(event: .keyboardButtonClicked(value: sender.value))
     }
     
-    @objc private func contactButtonClicked(){
+    @objc private func contactButtonClicked() {
         sendOutputEvent(event: .contactButtonClicked)
     }
     
-    @objc private func payButtonClicked(){
+    @objc private func payButtonClicked() {
         sendOutputEvent(event: .payButtonClicked)
     }
     
     override func handleInputEvent(_ value: PayVMOutputEvent) {
         switch value {
-        case .didContactUpdate(email: let email):
+        case .contactUpdated(email: let email):
             contactButton.setTitle(email, for: .normal)
-        case .didAmountUpdate(number: let number):
+        case .amountUpdated(number: let number):
             amountLabel.text = number
+        case .payButtonIsEnabledUpdated(isEnabled: let isEnabled):
+            payButton.isEnabled = isEnabled
         case .navigateToQRCodePage:
             assertionFailure()
         case .navigateToContactListPage:

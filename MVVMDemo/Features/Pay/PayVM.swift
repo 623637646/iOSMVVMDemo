@@ -31,17 +31,18 @@ enum PayVMInputEvent {
 }
 
 enum PayVMOutputEvent {
-    case didContactUpdate(email: String)
-    case didAmountUpdate(number: String)
+    case contactUpdated(email: String)
+    case amountUpdated(number: String)
+    case payButtonIsEnabledUpdated(isEnabled: Bool)
     case navigateToQRCodePage
     case navigateToContactListPage
-    case navigateToPreviewPage
+    case navigateToPreviewPage(amount: Decimal)
 }
 
 class PayVM: BaseViewModel<PayVMInputEvent, PayVMOutputEvent, PayModelProvidable> {
     
     private let emailSubject = CurrentValueSubject<String, Never>("ya.wang@okg.com")
-    private let balanceString = CurrentValueSubject<String, Never>("")
+    private let amountString = CurrentValueSubject<String, Never>("")
     
     init() {
         super.init(model: PayModel())
@@ -55,7 +56,8 @@ class PayVM: BaseViewModel<PayVMInputEvent, PayVMOutputEvent, PayModelProvidable
         case .contactButtonClicked:
             self.sendActionEvent(event: .navigateToContactListPage)
         case .payButtonClicked:
-            self.sendActionEvent(event: .navigateToPreviewPage)
+            guard let availableAmount = Self.getAvailableAmountFromString(string: amountString.value) else { return }
+            self.sendActionEvent(event: .navigateToPreviewPage(amount: availableAmount))
         case .keyboardButtonClicked(value: let value):
             calculate(input: value)
         }
@@ -63,49 +65,59 @@ class PayVM: BaseViewModel<PayVMInputEvent, PayVMOutputEvent, PayModelProvidable
     
     override var stateList: [AnyPublisher<PayVMOutputEvent, Never>] {
         [
-            emailSubject.map({ .didContactUpdate(email: $0) }).eraseToAnyPublisher(),
-            balanceString.map({ .didAmountUpdate(number: $0.isEmpty ? "0" : $0) }).eraseToAnyPublisher(),
+            emailSubject.map({ .contactUpdated(email: $0) }).eraseToAnyPublisher(),
+            amountString.map({ .amountUpdated(number: $0.isEmpty ? "0" : $0) }).eraseToAnyPublisher(),
+            amountString.map({ string in
+                let availableAmount = Self.getAvailableAmountFromString(string: string)
+                return .payButtonIsEnabledUpdated(isEnabled: availableAmount != nil)
+            }).eraseToAnyPublisher(),
         ]
     }
     
     private func calculate(input: KeyboardValue) {
         switch input {
         case .number1:
-            self.balanceString.value = self.balanceString.value.appending("1")
+            self.amountString.value = self.amountString.value.appending("1")
         case .number2:
-            self.balanceString.value = self.balanceString.value.appending("2")
+            self.amountString.value = self.amountString.value.appending("2")
         case .number3:
-            self.balanceString.value = self.balanceString.value.appending("3")
+            self.amountString.value = self.amountString.value.appending("3")
         case .number4:
-            self.balanceString.value = self.balanceString.value.appending("4")
+            self.amountString.value = self.amountString.value.appending("4")
         case .number5:
-            self.balanceString.value = self.balanceString.value.appending("5")
+            self.amountString.value = self.amountString.value.appending("5")
         case .number6:
-            self.balanceString.value = self.balanceString.value.appending("6")
+            self.amountString.value = self.amountString.value.appending("6")
         case .number7:
-            self.balanceString.value = self.balanceString.value.appending("7")
+            self.amountString.value = self.amountString.value.appending("7")
         case .number8:
-            self.balanceString.value = self.balanceString.value.appending("8")
+            self.amountString.value = self.amountString.value.appending("8")
         case .number9:
-            self.balanceString.value = self.balanceString.value.appending("9")
+            self.amountString.value = self.amountString.value.appending("9")
         case .dot:
-            if self.balanceString.value.isEmpty {
-                self.balanceString.value = self.balanceString.value.appending("0.")
-            } else if !self.balanceString.value.contains(".") {
-                self.balanceString.value = self.balanceString.value.appending(".")
+            if self.amountString.value.isEmpty {
+                self.amountString.value = self.amountString.value.appending("0.")
+            } else if !self.amountString.value.contains(".") {
+                self.amountString.value = self.amountString.value.appending(".")
             }
         case .number0:
-            if !self.balanceString.value.isEmpty {
-                self.balanceString.value = self.balanceString.value.appending("0")
+            if !self.amountString.value.isEmpty {
+                self.amountString.value = self.amountString.value.appending("0")
             }
         case .delete:
-            var string = self.balanceString.value
+            var string = self.amountString.value
             if string == "0." {
-                self.balanceString.value = ""
+                self.amountString.value = ""
             } else if !string.isEmpty {
                 string.removeLast()
-                self.balanceString.value = string
+                self.amountString.value = string
             }
         }
+    }
+    
+    private static func getAvailableAmountFromString(string: String) -> Decimal? {
+        guard let amount = Decimal(string: string) else { return nil }
+        guard string == amount.description else { return nil }
+        return amount
     }
 }
