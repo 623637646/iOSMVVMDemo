@@ -27,24 +27,28 @@ class PayVC: BaseViewController<PayView, PayVM> {
         sendInputEventToViewModel(event: .qrCodeButtonClicked)
     }
     
-    override func handleViewModelOutputEvent(event: PayVMOutputEvent, view: PayView) {
+    override func handleViewModelOutputEvent(event: PayVMOutputEvent) {
         switch event {
         case .didContactUpdate(email: let email):
-            break
-        case .didUnitUpdate(unit: let unit):
-            break
-        case .didCurrencyNumberUpdate(number: let number):
-            break
-        case .didSublabelUpdate(label: let label):
-            break
-        case .goToQRCodePage:
-            let qrCodePage = UIViewController()
-            qrCodePage.view.backgroundColor = .white
-            self.navigationController?.pushViewController(qrCodePage, animated: true)
+            sendInputEventToView(event: .didContactUpdate(email: email))
+        case .didAmountUpdate(number: let number):
+            sendInputEventToView(event: .didAmountUpdate(number: number))
+        case .navigateToQRCodePage:
+            let vc = UIViewController()
+            vc.view.backgroundColor = .white
+            self.navigationController?.pushViewController(vc, animated: true)
+        case .navigateToContactListPage:
+            let vc = UIViewController()
+            vc.view.backgroundColor = .white
+            self.navigationController?.pushViewController(vc, animated: true)
+        case .navigateToPreviewPage:
+            let vc = UIViewController()
+            vc.view.backgroundColor = .white
+            self.navigationController?.pushViewController(vc, animated: true)
         }
     }
     
-    override func handleViewOutputEvent(event: PayVMInputEvent, viewModel: PayVM) {
-        
+    override func handleViewOutputEvent(event: PayVMInputEvent) {
+        sendInputEventToViewModel(event: event)
     }
 }

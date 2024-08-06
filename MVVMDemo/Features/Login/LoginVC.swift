@@ -20,14 +20,14 @@ class LoginVC: BaseViewController<LoginView, LoginViewModel> {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func handleViewModelOutputEvent(event: LoginViewModelOutputEvent, view: LoginView) {
+    override func handleViewModelOutputEvent(event: LoginViewModelOutputEvent) {
         switch event {
         case .updateLoginButtonEnabled(value: let value):
-            view.handleInputEvent(.loginButtonIsEnabled(value: value))
+            sendInputEventToView(event: .loginButtonIsEnabled(value: value))
         case .updateLoginButtonHidden(value: let value):
-            view.handleInputEvent(.loginButtonIsHidden(value: value))
+            sendInputEventToView(event: .loginButtonIsHidden(value: value))
         case .updateLoadingViewHidden(value: let value):
-            view.handleInputEvent(.loadingViewIsHidden(value: value))
+            sendInputEventToView(event: .loadingViewIsHidden(value: value))
         case .showAlert(value: let value):
             let alert = UIAlertController(title: "Error", message: value, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .cancel))
@@ -42,14 +42,14 @@ class LoginVC: BaseViewController<LoginView, LoginViewModel> {
         }
     }
         
-    override func handleViewOutputEvent(event: LoginViewOutputEvent, viewModel: LoginViewModel) {
+    override func handleViewOutputEvent(event: LoginViewOutputEvent) {
         switch event {
         case .usernameChanged(value: let value):
-            viewModel.handleInputEvent(.usernameChanged(value: value))
+            sendInputEventToViewModel(event: .usernameChanged(value: value))
         case .passwordChanged(value: let value):
-            viewModel.handleInputEvent(.passwordChanged(value: value))
+            sendInputEventToViewModel(event: .passwordChanged(value: value))
         case .loginButtonClicked:
-            viewModel.handleInputEvent(.loginButtonClicked)
+            sendInputEventToViewModel(event: .loginButtonClicked)
         }
     }
     

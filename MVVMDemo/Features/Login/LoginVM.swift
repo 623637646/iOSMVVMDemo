@@ -45,12 +45,12 @@ class LoginViewModel: BaseViewModel<LoginViewModelInputEvent, LoginViewModelOutp
             Task { @MainActor in
                 do {
                     try await self.model.login(username: self.usernameSubject.value, password: self.passwordSubject.value)
-                    self.actionSubject.send(.presentToNextPage)
+                    self.sendActionEvent(event: .presentToNextPage)
                 } catch LoginError.usernameOrPasswordIsWrong {
-                    self.actionSubject.send(.showAlert(value: "Username or Password is incorrect!"))
+                    self.sendActionEvent(event: .showAlert(value: "Username or Password is incorrect!"))
                 } catch {
                     assertionFailure()
-                    self.actionSubject.send(.showAlert(value: error.localizedDescription))
+                    self.sendActionEvent(event: .showAlert(value: error.localizedDescription))
                 }
                 self.showLoadingSubject.value = false
             }

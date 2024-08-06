@@ -48,8 +48,8 @@ class BaseViewController<ViewType, ViewModelType>: UIViewController where ViewTy
 
         // Bind the output events of ViewModel
         viewModel.outputEventPublisher.sink { [weak self] value in
-            guard let self, let view = self.contentView else { return }
-            self.handleViewModelOutputEvent(event: value, view: view)
+            guard let self else { return }
+            self.handleViewModelOutputEvent(event: value)
         }.store(in: &cancellables)
         
         // Bind the output events of View
@@ -59,7 +59,7 @@ class BaseViewController<ViewType, ViewModelType>: UIViewController where ViewTy
         }
         view.outputEventPublisher.sink { [weak self] value in
             guard let self else { return }
-            self.handleViewOutputEvent(event: value, viewModel: self.viewModel)
+            self.handleViewOutputEvent(event: value)
         }.store(in: &cancellables)
     }
     
@@ -68,15 +68,23 @@ class BaseViewController<ViewType, ViewModelType>: UIViewController where ViewTy
         return ViewType.init(frame: frame)
     }
     
+    func sendInputEventToView(event: ViewType.InputEventType) {
+        guard let contentView else {
+            assertionFailure()
+            return
+        }
+        contentView.handleInputEvent(event)
+    }
+    
     func sendInputEventToViewModel(event: ViewModelType.InputEventType) {
         viewModel.handleInputEvent(event)
     }
     
-    func handleViewModelOutputEvent(event: ViewModelType.OutputEventType, view: ViewType) {
+    func handleViewModelOutputEvent(event: ViewModelType.OutputEventType) {
         // Subclass Override
     }
     
-    func handleViewOutputEvent(event: ViewType.OutputEventType, viewModel: ViewModelType) {
+    func handleViewOutputEvent(event: ViewType.OutputEventType) {
         // Subclass Override
     }
     

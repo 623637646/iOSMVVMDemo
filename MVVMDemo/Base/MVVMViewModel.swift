@@ -21,6 +21,9 @@ protocol ViewModelProvidable: InputEventHandler, OutputEventObservable {
     // Publisher for notifying external subscribers about actions.
     var actionPublisher: AnyPublisher<OutputEventType, Never> { get }
     
+    // Send action event
+    func sendActionEvent(event: OutputEventType)
+    
     // List of publishers for state changes.
     var stateList: [AnyPublisher<OutputEventType, Never>] { get }
 }
@@ -44,18 +47,18 @@ class BaseViewModel<InputEventType, OutputEventType, ModelType>: ViewModelProvid
     var model: ModelType
     
     // It should be internal. These values ​​can only be submited internally.
-    let actionSubject = PassthroughSubject<OutputEventType, Never>()
+    private let actionSubject = PassthroughSubject<OutputEventType, Never>()
     
     init(model: ModelType) {
         self.model = model
     }
     
-    func injectModel(model: ModelType){
-        self.model = model
-    }
-    
     // MARK: ViewModelProvidable
     
+    func sendActionEvent(event: OutputEventType){
+        actionSubject.send(event)
+    }
+        
     var actionPublisher: AnyPublisher<OutputEventType, Never> {
         actionSubject.eraseToAnyPublisher()
     }

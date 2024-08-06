@@ -78,15 +78,15 @@ class LoginView: BaseView<LoginViewInputEvent, LoginViewOutputEvent> {
     }
     
     @objc private func loginButtonClickedHandler() {
-        outputEventSubject.send(.loginButtonClicked)
+        sendOutputEvent(event: .loginButtonClicked)
     }
     
     @objc private func usernameDidChange(_ textField: UITextField) {
-        outputEventSubject.send(.usernameChanged(value: textField.text ?? ""))
+        sendOutputEvent(event: .usernameChanged(value: textField.text ?? ""))
     }
     
     @objc private func passwordDidChange(_ textField: UITextField) {
-        outputEventSubject.send(.passwordChanged(value: textField.text ?? ""))
+        sendOutputEvent(event: .passwordChanged(value: textField.text ?? ""))
     }
     
     override func handleInputEvent(_ value: LoginViewInputEvent) {
