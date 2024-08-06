@@ -24,7 +24,7 @@ class PayVC: BaseViewController<PayView, PayVM> {
     }
     
     @objc func qrCodeButtonClicked() {
-        sendInputEventToViewModel(event: .qrCodeButtonClicked)
+        sendEventToViewModel(event: .qrCodeButtonClicked)
     }
     
     override func handleViewModelOutputEvent(event: PayVM.OutputToVCEvent) {

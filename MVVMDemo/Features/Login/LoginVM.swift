@@ -83,12 +83,12 @@ class LoginViewModel: BaseViewModel<Void, LoginViewModel.InputFromViewEvent, Log
         Task { @MainActor in
             do {
                 try await self.model.login()
-                self.sendActionEventToViewController(event: .presentToNextPage)
+                self.sendEventToViewController(event: .presentToNextPage)
             } catch LoginError.usernameOrPasswordIsWrong {
-                self.sendActionEventToViewController(event: .showAlert(value: "Username or Password is incorrect!"))
+                self.sendEventToViewController(event: .showAlert(value: "Username or Password is incorrect!"))
             } catch {
                 assertionFailure()
-                self.sendActionEventToViewController(event: .showAlert(value: error.localizedDescription))
+                self.sendEventToViewController(event: .showAlert(value: error.localizedDescription))
             }
             self.loadingSubject.value = false
         }

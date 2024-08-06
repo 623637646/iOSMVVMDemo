@@ -10,7 +10,7 @@ import Foundation
 protocol PayModelProvidable {
     
 }
-
+// TODO: not done
 class PayModel: PayModelProvidable {
     
 }

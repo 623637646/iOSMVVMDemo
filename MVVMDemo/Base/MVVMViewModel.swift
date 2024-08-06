@@ -91,7 +91,7 @@ class BaseViewModel<InputFromVCEventType, InputFromViewEventType, OutputToVCEven
     
     // MARK: Subclass call
     
-    func sendActionEventToViewController(event: OutputToVCEventType) {
+    func sendEventToViewController(event: OutputToVCEventType) {
         actionSubject.send(event)
     }
     

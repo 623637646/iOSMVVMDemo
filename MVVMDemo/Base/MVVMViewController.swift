@@ -86,7 +86,7 @@ where ViewType: ViewProvidable,
     
     // MARK: Subclass call
     
-    func sendInputEventToViewModel(event: ViewModelType.InputFromVCEventType) {
+    func sendEventToViewModel(event: ViewModelType.InputFromVCEventType) {
         assert(Thread.isMainThread)
         viewModel.handleInputEventFromVC(event)
     }

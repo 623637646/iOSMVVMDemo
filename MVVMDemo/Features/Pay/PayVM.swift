@@ -57,22 +57,23 @@ class PayVM: BaseViewModel<PayVM.InputFromVCEvent, PayVM.InputFromViewEvent, Pay
     override func handleInputEventFromVC(_ value: InputFromVCEvent) {
         switch value {
         case .qrCodeButtonClicked:
-            self.sendActionEventToViewController(event: .navigateToQRCodePage)
+            self.sendEventToViewController(event: .navigateToQRCodePage)
         }
     }
     
     override func handleInputEventFromView(_ value: InputFromViewEvent) {
         switch value {
         case .contactButtonClicked:
-            self.sendActionEventToViewController(event: .navigateToContactListPage)
+            self.sendEventToViewController(event: .navigateToContactListPage)
         case .payButtonClicked:
             guard let availableAmount = Self.getAvailableAmountFromString(string: amountString.value) else { return }
-            self.sendActionEventToViewController(event: .navigateToPreviewPage(amount: availableAmount))
+            self.sendEventToViewController(event: .navigateToPreviewPage(amount: availableAmount))
         case .keyboardButtonClicked(value: let value):
             calculate(input: value)
         }
     }
     
+    // TODO: Refer to login, fix me 
     override var stateList: [AnyPublisher<OutputToViewEvent, Never>] {
         [
             emailSubject.map({ .contactUpdated(email: $0) }).eraseToAnyPublisher(),
