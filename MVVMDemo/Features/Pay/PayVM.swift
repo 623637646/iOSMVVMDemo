@@ -41,7 +41,7 @@ enum PayVMOutputEvent {
 class PayVM: BaseViewModel<PayVMInputEvent, PayVMOutputEvent, PayModelProvidable> {
     
     private let emailSubject = CurrentValueSubject<String, Never>("ya.wang@okg.com")
-    private let balance = CurrentValueSubject<Double, Never>(0)
+    private let balanceString = CurrentValueSubject<String, Never>("")
     
     init() {
         super.init(model: PayModel())
@@ -57,39 +57,55 @@ class PayVM: BaseViewModel<PayVMInputEvent, PayVMOutputEvent, PayModelProvidable
         case .payButtonClicked:
             self.sendActionEvent(event: .navigateToPreviewPage)
         case .keyboardButtonClicked(value: let value):
-            switch value {
-            case .number1:
-                self.balance.value = self.balance.value * 10 + 1
-            case .number2:
-                self.balance.value = self.balance.value * 10 + 2
-            case .number3:
-                self.balance.value = self.balance.value * 10 + 3
-            case .number4:
-                self.balance.value = self.balance.value * 10 + 4
-            case .number5:
-                self.balance.value = self.balance.value * 10 + 5
-            case .number6:
-                self.balance.value = self.balance.value * 10 + 6
-            case .number7:
-                self.balance.value = self.balance.value * 10 + 7
-            case .number8:
-                self.balance.value = self.balance.value * 10 + 8
-            case .number9:
-                self.balance.value = self.balance.value * 10 + 9
-            case .dot:
-                break
-            case .number0:
-                self.balance.value = self.balance.value * 10 + 0
-            case .delete:
-                break
-            }
+            calculate(input: value)
         }
     }
     
     override var stateList: [AnyPublisher<PayVMOutputEvent, Never>] {
         [
             emailSubject.map({ .didContactUpdate(email: $0) }).eraseToAnyPublisher(),
-            balance.map({ .didAmountUpdate(number: String(format: "%.f", $0)) }).eraseToAnyPublisher(),
+            balanceString.map({ .didAmountUpdate(number: $0.isEmpty ? "0" : $0) }).eraseToAnyPublisher(),
         ]
+    }
+    
+    private func calculate(input: KeyboardValue) {
+        switch input {
+        case .number1:
+            self.balanceString.value = self.balanceString.value.appending("1")
+        case .number2:
+            self.balanceString.value = self.balanceString.value.appending("2")
+        case .number3:
+            self.balanceString.value = self.balanceString.value.appending("3")
+        case .number4:
+            self.balanceString.value = self.balanceString.value.appending("4")
+        case .number5:
+            self.balanceString.value = self.balanceString.value.appending("5")
+        case .number6:
+            self.balanceString.value = self.balanceString.value.appending("6")
+        case .number7:
+            self.balanceString.value = self.balanceString.value.appending("7")
+        case .number8:
+            self.balanceString.value = self.balanceString.value.appending("8")
+        case .number9:
+            self.balanceString.value = self.balanceString.value.appending("9")
+        case .dot:
+            if self.balanceString.value.isEmpty {
+                self.balanceString.value = self.balanceString.value.appending("0.")
+            } else if !self.balanceString.value.contains(".") {
+                self.balanceString.value = self.balanceString.value.appending(".")
+            }
+        case .number0:
+            if !self.balanceString.value.isEmpty {
+                self.balanceString.value = self.balanceString.value.appending("0")
+            }
+        case .delete:
+            var string = self.balanceString.value
+            if string == "0." {
+                self.balanceString.value = ""
+            } else if !string.isEmpty {
+                string.removeLast()
+                self.balanceString.value = string
+            }
+        }
     }
 }
