@@ -20,14 +20,8 @@ class LoginVC: BaseViewController<LoginView, LoginViewModel> {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func handleViewModelOutputEvent(event: LoginViewModelOutputEvent) {
+    override func handleViewModelOutputEvent(event: LoginViewModel.OutputToVCEvent) {
         switch event {
-        case .loginButtonEnabledUpdated(value: let value):
-            sendInputEventToView(event: .loginButtonEnabledUpdated(value: value))
-        case .loginButtonHiddenUpdated(value: let value):
-            sendInputEventToView(event: .loginButtonHiddenUpdated(value: value))
-        case .loadingViewHiddenUpdated(value: let value):
-            sendInputEventToView(event: .loadingViewHiddenUpdated(value: value))
         case .showAlert(value: let value):
             let alert = UIAlertController(title: "Error", message: value, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .cancel))
@@ -39,17 +33,6 @@ class LoginVC: BaseViewController<LoginView, LoginViewModel> {
             label.text = "Login success"
             nextPage.view.addSubview(label)
             self.present(nextPage, animated: true)
-        }
-    }
-        
-    override func handleViewOutputEvent(event: LoginViewOutputEvent) {
-        switch event {
-        case .usernameUpdated(value: let value):
-            sendInputEventToViewModel(event: .usernameUpdated(value: value))
-        case .passwordUpdated(value: let value):
-            sendInputEventToViewModel(event: .passwordUpdated(value: value))
-        case .loginButtonClicked:
-            sendInputEventToViewModel(event: .loginButtonClicked)
         }
     }
     

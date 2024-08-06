@@ -9,21 +9,24 @@
 import Foundation
 import Combine
 
-enum LoginViewModelInputEvent {
-    case usernameUpdated(value: String)
-    case passwordUpdated(value: String)
-    case loginButtonClicked
-}
-
-enum LoginViewModelOutputEvent {
-    case loginButtonEnabledUpdated(value: Bool)
-    case loginButtonHiddenUpdated(value: Bool)
-    case loadingViewHiddenUpdated(value: Bool)
-    case showAlert(value: String)
-    case presentToNextPage
-}
-
-class LoginViewModel: BaseViewModel<LoginViewModelInputEvent, LoginViewModelOutputEvent, LoginModelProvidable> {
+class LoginViewModel: BaseViewModel<Void, LoginViewModel.InputFromViewEvent, LoginViewModel.OutputToVCEvent, LoginViewModel.OutputToViewEvent, LoginModelProvidable> {
+    
+    enum InputFromViewEvent {
+        case usernameUpdated(value: String)
+        case passwordUpdated(value: String)
+        case loginButtonClicked
+    }
+    
+    enum OutputToVCEvent {
+        case showAlert(value: String)
+        case presentToNextPage
+    }
+    
+    enum OutputToViewEvent {
+        case loginButtonEnabledUpdated(value: Bool)
+        case loginButtonHiddenUpdated(value: Bool)
+        case loadingViewHiddenUpdated(value: Bool)
+    }
     
     // State
     
@@ -50,40 +53,44 @@ class LoginViewModel: BaseViewModel<LoginViewModelInputEvent, LoginViewModelOutp
         super.init(model: LoginModel())
     }
     
-    override func handleInputEvent(_ value: LoginViewModelInputEvent) {
+    override func handleInputEventFromView(_ value: InputFromViewEvent) {
         switch value {
         case .usernameUpdated(value: let value):
             model.usernameSubject.value = value
         case .passwordUpdated(value: let value):
             model.passwordSubject.value = value
         case .loginButtonClicked:
-            self.loadingSubject.value = true
-            Task { @MainActor in
-                do {
-                    try await self.model.login()
-                    self.sendActionEvent(event: .presentToNextPage)
-                } catch LoginError.usernameOrPasswordIsWrong {
-                    self.sendActionEvent(event: .showAlert(value: "Username or Password is incorrect!"))
-                } catch {
-                    assertionFailure()
-                    self.sendActionEvent(event: .showAlert(value: error.localizedDescription))
-                }
-                self.loadingSubject.value = false
-            }
+            login()
         }
     }
-    
-    override var stateList: [AnyPublisher<LoginViewModelOutputEvent, Never>] {
+        
+    override var stateList: [AnyPublisher<OutputToViewEvent, Never>] {
         return [
             loginButtonEnabledState.map({
-                LoginViewModelOutputEvent.loginButtonEnabledUpdated(value: $0)
+                OutputToViewEvent.loginButtonEnabledUpdated(value: $0)
             }).eraseToAnyPublisher(),
             loginButtonHiddenState.map({ 
-                LoginViewModelOutputEvent.loginButtonHiddenUpdated(value: $0)
+                OutputToViewEvent.loginButtonHiddenUpdated(value: $0)
             }).eraseToAnyPublisher(),
             loadingViewHiddenState.map({ 
-                LoginViewModelOutputEvent.loadingViewHiddenUpdated(value: $0)
+                OutputToViewEvent.loadingViewHiddenUpdated(value: $0)
             }).eraseToAnyPublisher(),
         ]
+    }
+    
+    private func login() {
+        self.loadingSubject.value = true
+        Task { @MainActor in
+            do {
+                try await self.model.login()
+                self.sendActionEventToViewController(event: .presentToNextPage)
+            } catch LoginError.usernameOrPasswordIsWrong {
+                self.sendActionEventToViewController(event: .showAlert(value: "Username or Password is incorrect!"))
+            } catch {
+                assertionFailure()
+                self.sendActionEventToViewController(event: .showAlert(value: error.localizedDescription))
+            }
+            self.loadingSubject.value = false
+        }
     }
 }

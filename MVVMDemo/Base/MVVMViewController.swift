@@ -13,8 +13,8 @@ import UIKit
 class BaseViewController<ViewType, ViewModelType>: UIViewController
 where ViewType: ViewProvidable,
       ViewModelType: ViewModelProvidable,
-      ViewType.InputEventType == ViewModelType.OutputEventType,
-      ViewType.OutputEventType == ViewModelType.InputEventType
+      ViewType.InputEventType == ViewModelType.OutputToViewEventType,
+      ViewType.OutputEventType == ViewModelType.InputFromViewEventType
 {
     
     private let viewModel: ViewModelType
@@ -55,7 +55,16 @@ where ViewType: ViewProvidable,
         viewModel.outputEventPublisher.sink { [weak self] value in
             assert(Thread.isMainThread)
             guard let self else { return }
-            self.handleViewModelOutputEvent(event: value)
+            switch value {
+            case .toViewController(value: let value):
+                self.handleViewModelOutputEvent(event: value)
+            case .toView(value: let value):
+                guard let view = self.contentView else {
+                    assertionFailure()
+                    return
+                }
+                view.handleInputEvent(value)
+            }
         }.store(in: &cancellables)
         
         // Bind the output events of View
@@ -66,35 +75,26 @@ where ViewType: ViewProvidable,
         view.outputEventPublisher.sink { [weak self] value in
             assert(Thread.isMainThread)
             guard let self else { return }
-            self.handleViewOutputEvent(event: value)
+            self.viewModel.handleInputEventFromView(value)
         }.store(in: &cancellables)
     }
     
     private func createView(frame: CGRect) -> ViewType {
-        // Subclass Override
+        // Subclass override
         return ViewType.init(frame: frame)
     }
     
-    func sendInputEventToView(event: ViewType.InputEventType) {
+    // MARK: Subclass call
+    
+    func sendInputEventToViewModel(event: ViewModelType.InputFromVCEventType) {
         assert(Thread.isMainThread)
-        guard let contentView else {
-            assertionFailure()
-            return
-        }
-        contentView.handleInputEvent(event)
+        viewModel.handleInputEventFromVC(event)
     }
     
-    func sendInputEventToViewModel(event: ViewModelType.InputEventType) {
-        assert(Thread.isMainThread)
-        viewModel.handleInputEvent(event)
-    }
+    // MARK: Subclass override
     
-    func handleViewModelOutputEvent(event: ViewModelType.OutputEventType) {
-        // Subclass Override
-    }
-    
-    func handleViewOutputEvent(event: ViewType.OutputEventType) {
-        // Subclass Override
+    func handleViewModelOutputEvent(event: ViewModelType.OutputToVCEventType) {
+        
     }
     
 }

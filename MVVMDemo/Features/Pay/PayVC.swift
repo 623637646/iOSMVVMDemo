@@ -27,14 +27,8 @@ class PayVC: BaseViewController<PayView, PayVM> {
         sendInputEventToViewModel(event: .qrCodeButtonClicked)
     }
     
-    override func handleViewModelOutputEvent(event: PayVMOutputEvent) {
+    override func handleViewModelOutputEvent(event: PayVM.OutputToVCEvent) {
         switch event {
-        case .contactUpdated(email: let email):
-            sendInputEventToView(event: .contactUpdated(email: email))
-        case .amountUpdated(number: let number):
-            sendInputEventToView(event: .amountUpdated(number: number))
-        case .payButtonIsEnabledUpdated(isEnabled: let isEnabled):
-            sendInputEventToView(event: .payButtonIsEnabledUpdated(isEnabled: isEnabled))
         case .navigateToQRCodePage:
             let vc = UIViewController()
             vc.view.backgroundColor = .white
@@ -50,7 +44,4 @@ class PayVC: BaseViewController<PayView, PayVM> {
         }
     }
     
-    override func handleViewOutputEvent(event: PayVMInputEvent) {
-        sendInputEventToViewModel(event: event)
-    }
 }

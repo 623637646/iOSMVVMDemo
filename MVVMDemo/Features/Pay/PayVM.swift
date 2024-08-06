@@ -8,38 +8,44 @@
 import Foundation
 import Combine
 
-enum KeyboardValue: CaseIterable {
-    case number1
-    case number2
-    case number3
-    case number4
-    case number5
-    case number6
-    case number7
-    case number8
-    case number9
-    case dot
-    case number0
-    case delete
-}
+class PayVM: BaseViewModel<PayVM.InputFromVCEvent, PayVM.InputFromViewEvent, PayVM.OutputToVCEvent, PayVM.OutputToViewEvent, PayModelProvidable> {
+    
+    enum KeyboardValue: CaseIterable {
+        case number1
+        case number2
+        case number3
+        case number4
+        case number5
+        case number6
+        case number7
+        case number8
+        case number9
+        case dot
+        case number0
+        case delete
+    }
+    
+    enum InputFromVCEvent {
+        case qrCodeButtonClicked
+    }
+    
+    enum InputFromViewEvent {
+        case contactButtonClicked
+        case payButtonClicked
+        case keyboardButtonClicked(value: KeyboardValue)
+    }
+    
+    enum OutputToVCEvent {
+        case navigateToQRCodePage
+        case navigateToContactListPage
+        case navigateToPreviewPage(amount: Decimal)
+    }
 
-enum PayVMInputEvent {
-    case qrCodeButtonClicked
-    case contactButtonClicked
-    case payButtonClicked
-    case keyboardButtonClicked(value: KeyboardValue)
-}
-
-enum PayVMOutputEvent {
-    case contactUpdated(email: String)
-    case amountUpdated(number: String)
-    case payButtonIsEnabledUpdated(isEnabled: Bool)
-    case navigateToQRCodePage
-    case navigateToContactListPage
-    case navigateToPreviewPage(amount: Decimal)
-}
-
-class PayVM: BaseViewModel<PayVMInputEvent, PayVMOutputEvent, PayModelProvidable> {
+    enum OutputToViewEvent {
+        case contactUpdated(email: String)
+        case amountUpdated(number: String)
+        case payButtonIsEnabledUpdated(isEnabled: Bool)
+    }
     
     private let emailSubject = CurrentValueSubject<String, Never>("ya.wang@okg.com")
     private let amountString = CurrentValueSubject<String, Never>("")
@@ -48,22 +54,26 @@ class PayVM: BaseViewModel<PayVMInputEvent, PayVMOutputEvent, PayModelProvidable
         super.init(model: PayModel())
     }
     
-    override func handleInputEvent(_ value: PayVMInputEvent) {
-        super.handleInputEvent(value)
+    override func handleInputEventFromVC(_ value: InputFromVCEvent) {
         switch value {
         case .qrCodeButtonClicked:
-            self.sendActionEvent(event: .navigateToQRCodePage)
+            self.sendActionEventToViewController(event: .navigateToQRCodePage)
+        }
+    }
+    
+    override func handleInputEventFromView(_ value: InputFromViewEvent) {
+        switch value {
         case .contactButtonClicked:
-            self.sendActionEvent(event: .navigateToContactListPage)
+            self.sendActionEventToViewController(event: .navigateToContactListPage)
         case .payButtonClicked:
             guard let availableAmount = Self.getAvailableAmountFromString(string: amountString.value) else { return }
-            self.sendActionEvent(event: .navigateToPreviewPage(amount: availableAmount))
+            self.sendActionEventToViewController(event: .navigateToPreviewPage(amount: availableAmount))
         case .keyboardButtonClicked(value: let value):
             calculate(input: value)
         }
     }
     
-    override var stateList: [AnyPublisher<PayVMOutputEvent, Never>] {
+    override var stateList: [AnyPublisher<OutputToViewEvent, Never>] {
         [
             emailSubject.map({ .contactUpdated(email: $0) }).eraseToAnyPublisher(),
             amountString.map({ .amountUpdated(number: $0.isEmpty ? "0" : $0) }).eraseToAnyPublisher(),

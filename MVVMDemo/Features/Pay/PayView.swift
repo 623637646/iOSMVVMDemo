@@ -10,8 +10,8 @@ import UIKit
 import SnapKit
 
 class KeyboardButton: UIButton {
-    let value: KeyboardValue
-    init(value: KeyboardValue) {
+    let value: PayVM.KeyboardValue
+    init(value: PayVM.KeyboardValue) {
         self.value = value
         super.init(frame: CGRect.zero)
         switch value {
@@ -47,7 +47,10 @@ class KeyboardButton: UIButton {
     }
 }
 
-class PayView: BaseView<PayVMOutputEvent, PayVMInputEvent> {
+typealias PayViewInputEvent = PayVM.OutputToViewEvent
+typealias PayViewOutputEvent = PayVM.InputFromViewEvent
+
+class PayView: BaseView<PayViewInputEvent, PayViewOutputEvent> {
     
     private let contactButton = UIButton()
     private let amountLabel = UILabel()
@@ -56,7 +59,7 @@ class PayView: BaseView<PayVMOutputEvent, PayVMInputEvent> {
     private let keyboardButtons: [KeyboardButton]
     
     override init(frame: CGRect) {
-        keyboardButtons = KeyboardValue.allCases.map({ KeyboardButton(value: $0) })
+        keyboardButtons = PayVM.KeyboardValue.allCases.map({ KeyboardButton(value: $0) })
         super.init(frame: frame)
         self.backgroundColor = .black
         setupContactButton()
@@ -163,7 +166,7 @@ class PayView: BaseView<PayVMOutputEvent, PayVMInputEvent> {
         sendOutputEvent(event: .payButtonClicked)
     }
     
-    override func handleInputEvent(_ value: PayVMOutputEvent) {
+    override func handleInputEvent(_ value: PayViewInputEvent) {
         switch value {
         case .contactUpdated(email: let email):
             contactButton.setTitle(email, for: .normal)
@@ -171,12 +174,6 @@ class PayView: BaseView<PayVMOutputEvent, PayVMInputEvent> {
             amountLabel.text = number
         case .payButtonIsEnabledUpdated(isEnabled: let isEnabled):
             payButton.isEnabled = isEnabled
-        case .navigateToQRCodePage:
-            assertionFailure()
-        case .navigateToContactListPage:
-            assertionFailure()
-        case .navigateToPreviewPage:
-            assertionFailure()
         }
     }
     

@@ -9,8 +9,8 @@
 import Foundation
 import UIKit
 
-typealias LoginViewInputEvent = LoginViewModelOutputEvent
-typealias LoginViewOutputEvent = LoginViewModelInputEvent
+typealias LoginViewInputEvent = LoginViewModel.OutputToViewEvent
+typealias LoginViewOutputEvent = LoginViewModel.InputFromViewEvent
 
 class LoginView: BaseView<LoginViewInputEvent, LoginViewOutputEvent> {
     
@@ -25,6 +25,10 @@ class LoginView: BaseView<LoginViewInputEvent, LoginViewOutputEvent> {
         super.init(frame: frame)
         self.backgroundColor = .white
         setupSubviews()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func layoutSubviews() {
@@ -64,10 +68,6 @@ class LoginView: BaseView<LoginViewInputEvent, LoginViewOutputEvent> {
         self.addSubview(tipsView)
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     @objc private func loginButtonClickedHandler() {
         sendOutputEvent(event: .loginButtonClicked)
     }
@@ -95,10 +95,6 @@ class LoginView: BaseView<LoginViewInputEvent, LoginViewOutputEvent> {
             } else {
                 loadingView.startAnimating()
             }
-        case .showAlert(value: let value):
-            assertionFailure()
-        case .presentToNextPage:
-            assertionFailure()
         }
     }
 }

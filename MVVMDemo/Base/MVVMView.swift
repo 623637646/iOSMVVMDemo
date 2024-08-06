@@ -20,17 +20,19 @@ class BaseView<InputEventType, OutputEventType>: UIView, ViewProvidable {
     // It should be private. These values ​​can only be submited privately.
     private let outputEventSubject = PassthroughSubject<OutputEventType, Never>()
     
-    func sendOutputEvent(event: OutputEventType) {
-        outputEventSubject.send(event)
-    }
-    
-    // MARK: OutputEventObservable
     var outputEventPublisher: AnyPublisher<OutputEventType, Never> {
         outputEventSubject.eraseToAnyPublisher()
     }
     
-    // MARK: InputEventHandler
+    // MARK: Subclass call
+    
+    func sendOutputEvent(event: OutputEventType) {
+        outputEventSubject.send(event)
+    }
+    
+    // MARK: Subclass override
+
     func handleInputEvent(_ value: InputEventType) {
-        // Subclass Override
+        // Subclass override
     }
 }
