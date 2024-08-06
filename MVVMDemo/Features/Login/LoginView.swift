@@ -9,17 +9,8 @@
 import Foundation
 import UIKit
 
-enum LoginViewInputEvent {
-    case loginButtonIsEnabled(value: Bool)
-    case loginButtonIsHidden(value: Bool)
-    case loadingViewIsHidden(value: Bool)
-}
-
-enum LoginViewOutputEvent {
-    case usernameChanged(value: String)
-    case passwordChanged(value: String)
-    case loginButtonClicked
-}
+typealias LoginViewInputEvent = LoginViewModelOutputEvent
+typealias LoginViewOutputEvent = LoginViewModelInputEvent
 
 class LoginView: BaseView<LoginViewInputEvent, LoginViewOutputEvent> {
     
@@ -82,28 +73,32 @@ class LoginView: BaseView<LoginViewInputEvent, LoginViewOutputEvent> {
     }
     
     @objc private func usernameDidChange(_ textField: UITextField) {
-        sendOutputEvent(event: .usernameChanged(value: textField.text ?? ""))
+        sendOutputEvent(event: .usernameUpdated(value: textField.text ?? ""))
     }
     
     @objc private func passwordDidChange(_ textField: UITextField) {
-        sendOutputEvent(event: .passwordChanged(value: textField.text ?? ""))
+        sendOutputEvent(event: .passwordUpdated(value: textField.text ?? ""))
     }
     
     override func handleInputEvent(_ value: LoginViewInputEvent) {
         super.handleInputEvent(value)
         // Update UIs
         switch value {
-        case .loginButtonIsEnabled(value: let value):
+        case .loginButtonEnabledUpdated(value: let value):
             loginButton.isEnabled = value
-        case .loginButtonIsHidden(value: let value):
+        case .loginButtonHiddenUpdated(value: let value):
             loginButton.isHidden = value
-        case .loadingViewIsHidden(value: let value):
+        case .loadingViewHiddenUpdated(value: let value):
             loadingView.isHidden = value
             if value {
                 loadingView.stopAnimating()
             } else {
                 loadingView.startAnimating()
             }
+        case .showAlert(value: let value):
+            assertionFailure()
+        case .presentToNextPage:
+            assertionFailure()
         }
     }
 }

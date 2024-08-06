@@ -70,7 +70,7 @@ where ViewType: ViewProvidable,
         }.store(in: &cancellables)
     }
     
-    func createView(frame: CGRect) -> ViewType {
+    private func createView(frame: CGRect) -> ViewType {
         // Subclass Override
         return ViewType.init(frame: frame)
     }

@@ -22,12 +22,12 @@ class LoginVC: BaseViewController<LoginView, LoginViewModel> {
     
     override func handleViewModelOutputEvent(event: LoginViewModelOutputEvent) {
         switch event {
-        case .updateLoginButtonEnabled(value: let value):
-            sendInputEventToView(event: .loginButtonIsEnabled(value: value))
-        case .updateLoginButtonHidden(value: let value):
-            sendInputEventToView(event: .loginButtonIsHidden(value: value))
-        case .updateLoadingViewHidden(value: let value):
-            sendInputEventToView(event: .loadingViewIsHidden(value: value))
+        case .loginButtonEnabledUpdated(value: let value):
+            sendInputEventToView(event: .loginButtonEnabledUpdated(value: value))
+        case .loginButtonHiddenUpdated(value: let value):
+            sendInputEventToView(event: .loginButtonHiddenUpdated(value: value))
+        case .loadingViewHiddenUpdated(value: let value):
+            sendInputEventToView(event: .loadingViewHiddenUpdated(value: value))
         case .showAlert(value: let value):
             let alert = UIAlertController(title: "Error", message: value, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .cancel))
@@ -44,10 +44,10 @@ class LoginVC: BaseViewController<LoginView, LoginViewModel> {
         
     override func handleViewOutputEvent(event: LoginViewOutputEvent) {
         switch event {
-        case .usernameChanged(value: let value):
-            sendInputEventToViewModel(event: .usernameChanged(value: value))
-        case .passwordChanged(value: let value):
-            sendInputEventToViewModel(event: .passwordChanged(value: value))
+        case .usernameUpdated(value: let value):
+            sendInputEventToViewModel(event: .usernameUpdated(value: value))
+        case .passwordUpdated(value: let value):
+            sendInputEventToViewModel(event: .passwordUpdated(value: value))
         case .loginButtonClicked:
             sendInputEventToViewModel(event: .loginButtonClicked)
         }

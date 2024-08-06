@@ -10,15 +10,15 @@ import Foundation
 import Combine
 
 enum LoginViewModelInputEvent {
-    case usernameChanged(value: String)
-    case passwordChanged(value: String)
+    case usernameUpdated(value: String)
+    case passwordUpdated(value: String)
     case loginButtonClicked
 }
 
 enum LoginViewModelOutputEvent {
-    case updateLoginButtonEnabled(value: Bool)
-    case updateLoginButtonHidden(value: Bool)
-    case updateLoadingViewHidden(value: Bool)
+    case loginButtonEnabledUpdated(value: Bool)
+    case loginButtonHiddenUpdated(value: Bool)
+    case loadingViewHiddenUpdated(value: Bool)
     case showAlert(value: String)
     case presentToNextPage
 }
@@ -52,9 +52,9 @@ class LoginViewModel: BaseViewModel<LoginViewModelInputEvent, LoginViewModelOutp
     
     override func handleInputEvent(_ value: LoginViewModelInputEvent) {
         switch value {
-        case .usernameChanged(value: let value):
+        case .usernameUpdated(value: let value):
             model.usernameSubject.value = value
-        case .passwordChanged(value: let value):
+        case .passwordUpdated(value: let value):
             model.passwordSubject.value = value
         case .loginButtonClicked:
             self.loadingSubject.value = true
@@ -76,13 +76,13 @@ class LoginViewModel: BaseViewModel<LoginViewModelInputEvent, LoginViewModelOutp
     override var stateList: [AnyPublisher<LoginViewModelOutputEvent, Never>] {
         return [
             loginButtonEnabledState.map({
-                LoginViewModelOutputEvent.updateLoginButtonEnabled(value: $0)
+                LoginViewModelOutputEvent.loginButtonEnabledUpdated(value: $0)
             }).eraseToAnyPublisher(),
             loginButtonHiddenState.map({ 
-                LoginViewModelOutputEvent.updateLoginButtonHidden(value: $0)
+                LoginViewModelOutputEvent.loginButtonHiddenUpdated(value: $0)
             }).eraseToAnyPublisher(),
             loadingViewHiddenState.map({ 
-                LoginViewModelOutputEvent.updateLoadingViewHidden(value: $0)
+                LoginViewModelOutputEvent.loadingViewHiddenUpdated(value: $0)
             }).eraseToAnyPublisher(),
         ]
     }
