@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		A005B8AC2C61D9A60045A735 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = A005B8AB2C61D9A60045A735 /* SnapKit */; };
+		A005B8B12C62257D0045A735 /* ContactManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A005B8B02C62257D0045A735 /* ContactManager.swift */; };
+		A005B8B52C6235750045A735 /* AssetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A005B8B42C6235750045A735 /* AssetManager.swift */; };
 		A0F1FE8F2C6122330037738F /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F1FE8E2C6122330037738F /* NetworkManager.swift */; };
 		A0F8EBB62C60C7D900A4499E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F8EBB52C60C7D900A4499E /* AppDelegate.swift */; };
 		A0F8EBB82C60C7D900A4499E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F8EBB72C60C7D900A4499E /* SceneDelegate.swift */; };
@@ -41,6 +43,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A005B8B02C62257D0045A735 /* ContactManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactManager.swift; sourceTree = "<group>"; };
+		A005B8B42C6235750045A735 /* AssetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetManager.swift; sourceTree = "<group>"; };
 		A0F1FE8E2C6122330037738F /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		A0F8EBB22C60C7D900A4499E /* MVVMDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MVVMDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0F8EBB52C60C7D900A4499E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -96,6 +100,8 @@
 			isa = PBXGroup;
 			children = (
 				A0F1FE8E2C6122330037738F /* NetworkManager.swift */,
+				A005B8B02C62257D0045A735 /* ContactManager.swift */,
+				A005B8B42C6235750045A735 /* AssetManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -306,7 +312,9 @@
 				A0F8EBF52C60D31400A4499E /* LoginModel.swift in Sources */,
 				A0F8EBEA2C60C87D00A4499E /* MVVMView.swift in Sources */,
 				A0F8EBB82C60C7D900A4499E /* SceneDelegate.swift in Sources */,
+				A005B8B52C6235750045A735 /* AssetManager.swift in Sources */,
 				A0F8EBF82C60D31400A4499E /* LoginVM.swift in Sources */,
+				A005B8B12C62257D0045A735 /* ContactManager.swift in Sources */,
 				A0F8EBED2C60C87D00A4499E /* MVVMViewModel.swift in Sources */,
 				A0F8EBF62C60D31400A4499E /* LoginView.swift in Sources */,
 			);
