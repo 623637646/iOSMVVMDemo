@@ -65,7 +65,11 @@ class BaseViewController<ViewType, ViewModelType>: UIViewController where ViewTy
     
     func createView(frame: CGRect) -> ViewType {
         // Subclass Override
-        fatalError("Don't call this method. Subclass have to override this method.")
+        return ViewType.init(frame: frame)
+    }
+    
+    func sendInputEventToViewModel(event: ViewModelType.InputEventType) {
+        viewModel.handleInputEvent(event)
     }
     
     func handleViewModelOutputEvent(event: ViewModelType.OutputEventType, view: ViewType) {

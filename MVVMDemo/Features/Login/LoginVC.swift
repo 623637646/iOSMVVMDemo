@@ -20,10 +20,6 @@ class LoginVC: BaseViewController<LoginView, LoginViewModel> {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func createView(frame: CGRect) -> LoginView {
-        LoginView(frame: frame)
-    }
-    
     override func handleViewModelOutputEvent(event: LoginViewModelOutputEvent, view: LoginView) {
         switch event {
         case .updateLoginButtonEnabled(value: let value):

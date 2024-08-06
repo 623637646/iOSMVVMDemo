@@ -7,6 +7,10 @@
 
 import Foundation
 
-class PayModel {
+protocol PayModelProvidable {
+    
+}
+
+class PayModel: PayModelProvidable {
     
 }

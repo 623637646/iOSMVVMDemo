@@ -20,7 +20,8 @@ class ViewController: UIViewController {
     }
     
     @IBAction func goToPay(_ sender: Any) {
-        
+        let loginVC = PayVC()
+        self.navigationController?.pushViewController(loginVC, animated: true)
     }
 }
 
