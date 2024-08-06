@@ -25,10 +25,26 @@ enum LoginViewModelOutputEvent {
 
 class LoginViewModel: BaseViewModel<LoginViewModelInputEvent, LoginViewModelOutputEvent, LoginModelProvidable> {
     
+    // State
+    
+    private var loginButtonEnabledPublisher: AnyPublisher<Bool, Never> {
+        return model.usernameSubject.combineLatest(model.passwordSubject).map { (username, password) in
+            // Enable login button only when both username and password are non-empty.
+            return !username.isEmpty && !password.isEmpty
+        }.eraseToAnyPublisher()
+    }
+    
+    private var loginButtonHiddenPublisher: AnyPublisher<Bool, Never> {
+        return loadingSubject.eraseToAnyPublisher()
+    }
+    
+    private var loadingViewHiddenPublisher: AnyPublisher<Bool, Never> {
+        return loadingSubject.map({ !$0 }).eraseToAnyPublisher()
+    }
+    
     // Subjects, should be private. These values ​​can only be changed privately.
-    private let usernameSubject = CurrentValueSubject<String, Never>("")
-    private let passwordSubject = CurrentValueSubject<String, Never>("")
-    private let showLoadingSubject = CurrentValueSubject<Bool, Never>(false)
+    
+    private let loadingSubject = CurrentValueSubject<Bool, Never>(false)
     
     init() {
         super.init(model: LoginModel())
@@ -37,14 +53,14 @@ class LoginViewModel: BaseViewModel<LoginViewModelInputEvent, LoginViewModelOutp
     override func handleInputEvent(_ value: LoginViewModelInputEvent) {
         switch value {
         case .usernameChanged(value: let value):
-            usernameSubject.value = value
+            model.usernameSubject.value = value
         case .passwordChanged(value: let value):
-            passwordSubject.value = value
+            model.passwordSubject.value = value
         case .loginButtonClicked:
-            self.showLoadingSubject.value = true
+            self.loadingSubject.value = true
             Task { @MainActor in
                 do {
-                    try await self.model.login(username: self.usernameSubject.value, password: self.passwordSubject.value)
+                    try await self.model.login()
                     self.sendActionEvent(event: .presentToNextPage)
                 } catch LoginError.usernameOrPasswordIsWrong {
                     self.sendActionEvent(event: .showAlert(value: "Username or Password is incorrect!"))
@@ -52,18 +68,22 @@ class LoginViewModel: BaseViewModel<LoginViewModelInputEvent, LoginViewModelOutp
                     assertionFailure()
                     self.sendActionEvent(event: .showAlert(value: error.localizedDescription))
                 }
-                self.showLoadingSubject.value = false
+                self.loadingSubject.value = false
             }
         }
     }
     
     override var stateList: [AnyPublisher<LoginViewModelOutputEvent, Never>] {
-        let updateLoginButtonEnabled = usernameSubject.combineLatest(passwordSubject).map { (username, password) in
-            // Enable login button only when both username and password are non-empty.
-            LoginViewModelOutputEvent.updateLoginButtonEnabled(value: !username.isEmpty && !password.isEmpty)
-        }.eraseToAnyPublisher()
-        let updateLoginButtonHidden = showLoadingSubject.map { LoginViewModelOutputEvent.updateLoginButtonHidden(value: $0) }.eraseToAnyPublisher()
-        let updateLoadingViewHidden = showLoadingSubject.map { LoginViewModelOutputEvent.updateLoadingViewHidden(value: !$0) }.eraseToAnyPublisher()
-        return [updateLoginButtonEnabled, updateLoginButtonHidden, updateLoadingViewHidden]
+        return [
+            loginButtonEnabledPublisher.map({
+                LoginViewModelOutputEvent.updateLoginButtonEnabled(value: $0)
+            }).eraseToAnyPublisher(),
+            loginButtonHiddenPublisher.map({ 
+                LoginViewModelOutputEvent.updateLoginButtonHidden(value: $0)
+            }).eraseToAnyPublisher(),
+            loadingViewHiddenPublisher.map({ 
+                LoginViewModelOutputEvent.updateLoadingViewHidden(value: $0)
+            }).eraseToAnyPublisher(),
+        ]
     }
 }
