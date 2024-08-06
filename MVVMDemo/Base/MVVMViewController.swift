@@ -48,6 +48,7 @@ class BaseViewController<ViewType, ViewModelType>: UIViewController where ViewTy
 
         // Bind the output events of ViewModel
         viewModel.outputEventPublisher.sink { [weak self] value in
+            assert(Thread.isMainThread)
             guard let self else { return }
             self.handleViewModelOutputEvent(event: value)
         }.store(in: &cancellables)
@@ -58,6 +59,7 @@ class BaseViewController<ViewType, ViewModelType>: UIViewController where ViewTy
             return
         }
         view.outputEventPublisher.sink { [weak self] value in
+            assert(Thread.isMainThread)
             guard let self else { return }
             self.handleViewOutputEvent(event: value)
         }.store(in: &cancellables)
@@ -69,6 +71,7 @@ class BaseViewController<ViewType, ViewModelType>: UIViewController where ViewTy
     }
     
     func sendInputEventToView(event: ViewType.InputEventType) {
+        assert(Thread.isMainThread)
         guard let contentView else {
             assertionFailure()
             return
@@ -77,6 +80,7 @@ class BaseViewController<ViewType, ViewModelType>: UIViewController where ViewTy
     }
     
     func sendInputEventToViewModel(event: ViewModelType.InputEventType) {
+        assert(Thread.isMainThread)
         viewModel.handleInputEvent(event)
     }
     
