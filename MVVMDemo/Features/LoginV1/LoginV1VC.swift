@@ -11,7 +11,7 @@ import Combine
 
 class LoginV1VC: UIViewController {
     
-    lazy var viewModel: LoginV1VM = {
+    let viewModel: LoginV1VM = {
         let model = LoginModel(networkManager: NetworkManager())
         return LoginV1VM(model: model)
     }()
@@ -59,24 +59,22 @@ class LoginV1VC: UIViewController {
             self.present(alert, animated: true)
         }.store(in: &cancellables)
         
-        viewModel.loadingViewHiddenState.sink { [weak self] value in
+        viewModel.loadingSubject.sink { [weak self] value in
             guard let self, let view = self.contentView else { return }
-            view.loadingView.isHidden = value
             if value {
-                view.loadingView.stopAnimating()
-            } else {
+                view.loginButton.isHidden = true
+                view.loadingView.isHidden = false
                 view.loadingView.startAnimating()
+            } else {
+                view.loginButton.isHidden = false
+                view.loadingView.isHidden = true
+                view.loadingView.stopAnimating()
             }
         }.store(in: &cancellables)
         
         viewModel.loginButtonEnabledState.sink { [weak self] value in
             guard let self, let view = self.contentView else { return }
             view.loginButton.isEnabled = value
-        }.store(in: &cancellables)
-        
-        viewModel.loginButtonHiddenState.sink { [weak self] value in
-            guard let self, let view = self.contentView else { return }
-            view.loginButton.isHidden = value
         }.store(in: &cancellables)
     }
     

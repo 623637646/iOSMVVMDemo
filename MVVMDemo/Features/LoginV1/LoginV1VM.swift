@@ -11,10 +11,7 @@ import Combine
 class LoginV1VM {
     
     let model: LoginModel
-    
-    // Private subject
-    private let loadingSubject = CurrentValueSubject<Bool, Never>(false)
-    
+        
     // Public Publishers
     var loginButtonEnabledState: AnyPublisher<Bool, Never> {
         model.usernameSubject.combineLatest(model.passwordSubject).map { (username, password) in
@@ -23,14 +20,8 @@ class LoginV1VM {
         }.eraseToAnyPublisher()
     }
     
-    var loginButtonHiddenState: AnyPublisher<Bool, Never> {
-        loadingSubject.eraseToAnyPublisher()
-    }
-    
-    var loadingViewHiddenState: AnyPublisher<Bool, Never> {
-        loadingSubject.map({ !$0 }).eraseToAnyPublisher()
-    }
-    
+    let loadingSubject = CurrentValueSubject<Bool, Never>(false)
+
     let presentToNextPageSubject = PassthroughSubject<(), Never>()
     
     let showAlertSubject = PassthroughSubject<String, Never>()
