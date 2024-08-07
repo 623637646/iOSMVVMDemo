@@ -50,10 +50,6 @@ class PayVM: BaseViewModel<PayVM.InputFromVCEvent, PayVM.InputFromViewEvent, Pay
     private let emailSubject = CurrentValueSubject<String, Never>("ya.wang@okg.com")
     private let amountString = CurrentValueSubject<String, Never>("")
     
-    init() {
-        super.init(model: PayModel())
-    }
-    
     override func handleInputEventFromVC(_ value: InputFromVCEvent) {
         switch value {
         case .qrCodeButtonClicked:

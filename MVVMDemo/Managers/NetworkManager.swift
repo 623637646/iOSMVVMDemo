@@ -14,7 +14,7 @@ protocol NetworkManagerProvidable {
 class NetworkManager: NetworkManagerProvidable {
     
     func request(url: URL) async throws {
-        
+        try? await Task.sleep(nanoseconds: 500_000_000) // 0.5s delay
     }
     
 }

@@ -31,14 +31,11 @@ where OutputEventType == ViewModelOutputEvent<OutputToVCEventType, OutputToViewE
     associatedtype InputFromViewEventType
     associatedtype OutputToVCEventType
     associatedtype OutputToViewEventType
-    associatedtype ModelType
-    
-    var model: ModelType { get set }
-    
-    // Publisher for notifying external subscribers about actions.
+        
+    // Publisher for notifying external subscribers about actions. Normally it will be send to the ViewController.
     var actionPublisher: AnyPublisher<OutputToVCEventType, Never> { get }
     
-    // List of publishers for state changes.
+    // List of publishers for state changes. Normally it will be send to the View.
     var stateList: [AnyPublisher<OutputToViewEventType, Never>] { get }
     
     func handleInputEventFromVC(_ value: InputFromVCEventType)
@@ -47,10 +44,6 @@ where OutputEventType == ViewModelOutputEvent<OutputToVCEventType, OutputToViewE
 }
 
 extension ViewModelProvidable {
-    
-    mutating func injectModel(model: ModelType){
-        self.model = model
-    }
     
     // Combined publisher for state and action notifications.
     var outputEventPublisher: AnyPublisher<OutputEventType, Never> {
@@ -76,8 +69,7 @@ extension ViewModelProvidable {
 /// A Base ViewModel
 class BaseViewModel<InputFromVCEventType, InputFromViewEventType, OutputToVCEventType, OutputToViewEventType, ModelType>: ViewModelProvidable {
     
-    // It's `var`, because we need to inject the mock depemdency in unit tests.
-    var model: ModelType
+    let model: ModelType
     
     private let actionSubject = PassthroughSubject<OutputToVCEventType, Never>()
     

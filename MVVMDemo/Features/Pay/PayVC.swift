@@ -11,7 +11,9 @@ import UIKit
 class PayVC: BaseViewController<PayView, PayVM> {
     
     init() {
-        super.init(viewModel: PayVM())
+        let model = PayModel()
+        let viewModel = PayVM(model: model)
+        super.init(viewModel: viewModel)
     }
     
     required init?(coder: NSCoder) {

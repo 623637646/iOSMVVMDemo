@@ -24,16 +24,17 @@ class LoginModel: LoginModelProvidable {
     let usernameSubject = CurrentValueSubject<String, Never>("")
     let passwordSubject = CurrentValueSubject<String, Never>("")
     
-    // TODO: fixme
-//    let networkManager: NetworkManagerProvidable
-//    
-//    init(networkManager: NetworkManagerProvidable) {
-//        self.networkManager = networkManager
-//    }
+    let networkManager: NetworkManagerProvidable
+    
+    init(networkManager: NetworkManagerProvidable) {
+        self.networkManager = networkManager
+    }
     
     func login() async throws {
-        // Mock login implementation with a delay.
-        try? await Task.sleep(nanoseconds: 500_000_000) // 0.5s delay
+        // Mock login request
+        try await networkManager.request(url: URL(string: "www.okx.com")!)
+        
+        // Mock result
         switch (usernameSubject.value, passwordSubject.value) {
         case ("111", "222"):
             return

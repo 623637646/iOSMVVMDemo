@@ -31,10 +31,6 @@ class LoginViewModel: BaseViewModel<Void, LoginViewModel.InputFromViewEvent, Log
     // Subjects, should be private. These values ​​can only be changed privately.
     private let loadingSubject = CurrentValueSubject<Bool, Never>(false)
     
-    init() {
-        super.init(model: LoginModel())
-    }
-    
     override func handleInputEventFromView(_ value: InputFromViewEvent) {
         switch value {
         case .usernameUpdated(value: let value):

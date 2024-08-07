@@ -13,7 +13,9 @@ import UIKit
 class LoginVC: BaseViewController<LoginView, LoginViewModel> {
     
     init() {
-        super.init(viewModel: LoginViewModel())
+        let model = LoginModel(networkManager: NetworkManager())
+        let viewModel = LoginViewModel(model: model)
+        super.init(viewModel: viewModel)
     }
     
     required init?(coder: NSCoder) {
