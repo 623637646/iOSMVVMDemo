@@ -57,8 +57,10 @@ where ViewType: ViewProvidable,
             guard let self else { return }
             switch value {
             case .toViewController(value: let value):
+                print("[MVVM][VM->VC] \(value)")
                 self.handleViewModelOutputEvent(event: value)
             case .toView(value: let value):
+                print("[MVVM][VM->View] \(value)")
                 guard let view = self.contentView else {
                     assertionFailure()
                     return
@@ -75,6 +77,7 @@ where ViewType: ViewProvidable,
         view.outputEventPublisher.sink { [weak self] value in
             assert(Thread.isMainThread)
             guard let self else { return }
+            print("[MVVM][View->VM] \(value)")
             self.viewModel.handleInputEventFromView(value)
         }.store(in: &cancellables)
     }
@@ -88,6 +91,7 @@ where ViewType: ViewProvidable,
     
     func sendEventToViewModel(event: ViewModelType.InputFromVCEventType) {
         assert(Thread.isMainThread)
+        print("[MVVM][VC->VM] \(event)")
         viewModel.handleInputEventFromVC(event)
     }
     
