@@ -83,7 +83,7 @@ where ViewType: ViewProvidable,
     }
     
     private func createView(frame: CGRect) -> ViewType {
-        // Subclass override
+        // Subclass should not override it. 
         return ViewType.init(frame: frame)
     }
     
