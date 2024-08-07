@@ -15,7 +15,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func goToLoginPage(_ sender: Any) {
-        let loginVC = LoginVC()
+        let loginVC = LoginV1VC()
         self.navigationController?.pushViewController(loginVC, animated: true)
     }
     
