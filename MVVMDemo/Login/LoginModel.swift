@@ -1,9 +1,8 @@
 //
 //  LoginModel.swift
-//  YanniTest
+//  MVVMDemo
 //
-//  Created by Wang Ya on 5/8/24.
-//  Copyright © 2024 Shopee. All rights reserved.
+//  Created by Wang Ya on 7/8/24.
 //
 
 import Foundation

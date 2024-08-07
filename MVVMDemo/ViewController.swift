@@ -15,12 +15,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func goToLoginPage(_ sender: Any) {
-        let loginVC = LoginV1VC()
-        self.navigationController?.pushViewController(loginVC, animated: true)
-    }
-    
-    @IBAction func goToPay(_ sender: Any) {
-        let loginVC = PayVC()
+        let loginVC = LoginVC()
         self.navigationController?.pushViewController(loginVC, animated: true)
     }
 }

@@ -1,5 +1,5 @@
 //
-//  LoginV1View.swift
+//  LoginView.swift
 //  MVVMDemo
 //
 //  Created by Wang Ya on 7/8/24.
@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class LoginV1View: UIView {
+class LoginView: UIView {
     
     // Subviews. We suggest making the subviews private. Only public the needed API to update subviews.
     let usernameTextField: UITextField = {

@@ -1,5 +1,5 @@
 //
-//  LoginV1VC.swift
+//  LoginVC.swift
 //  MVVMDemo
 //
 //  Created by Wang Ya on 7/8/24.
@@ -9,15 +9,15 @@ import Foundation
 import UIKit
 import Combine
 
-class LoginV1VC: UIViewController {
+class LoginVC: UIViewController {
     
-    let viewModel: LoginV1VM = {
+    let viewModel: LoginVM = {
         let model = LoginModel(networkManager: NetworkManager())
-        return LoginV1VM(model: model)
+        return LoginVM(model: model)
     }()
     
     // We use weak here, because the system may release the views to save memory. Normally we drag some views of a StoryBoard into viewController, it will be weak. So this is recommend by Apple.
-    private weak var contentView: LoginV1View?
+    private weak var contentView: LoginView?
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -30,7 +30,7 @@ class LoginV1VC: UIViewController {
     private func setupView() {
         // Create content view
         assert(self.contentView == nil)
-        let view = LoginV1View(frame: self.view.bounds)
+        let view = LoginView(frame: self.view.bounds)
         view.usernameTextField.addTarget(self, action: #selector(usernameDidChange), for: .editingChanged)
         view.passwordTextField.addTarget(self, action: #selector(passwordDidChange), for: .editingChanged)
         view.loginButton.addTarget(self, action: #selector(loginButtonClickedHandler), for: .touchUpInside)

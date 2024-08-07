@@ -8,12 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		A005B8AC2C61D9A60045A735 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = A005B8AB2C61D9A60045A735 /* SnapKit */; };
-		A005B8B12C62257D0045A735 /* ContactManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A005B8B02C62257D0045A735 /* ContactManager.swift */; };
-		A005B8B52C6235750045A735 /* AssetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A005B8B42C6235750045A735 /* AssetManager.swift */; };
-		A005B8B82C635A070045A735 /* LoginV1VC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A005B8B72C635A070045A735 /* LoginV1VC.swift */; };
-		A005B8BA2C635A100045A735 /* LoginV1View.swift in Sources */ = {isa = PBXBuildFile; fileRef = A005B8B92C635A100045A735 /* LoginV1View.swift */; };
-		A005B8BC2C635A210045A735 /* LoginV1VM.swift in Sources */ = {isa = PBXBuildFile; fileRef = A005B8BB2C635A210045A735 /* LoginV1VM.swift */; };
-		A0F1FE8F2C6122330037738F /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F1FE8E2C6122330037738F /* NetworkManager.swift */; };
+		A005B8B82C635A070045A735 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A005B8B72C635A070045A735 /* LoginVC.swift */; };
+		A005B8BA2C635A100045A735 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A005B8B92C635A100045A735 /* LoginView.swift */; };
+		A005B8BC2C635A210045A735 /* LoginVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = A005B8BB2C635A210045A735 /* LoginVM.swift */; };
+		A005B8C02C63889E0045A735 /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A005B8BF2C63889E0045A735 /* LoginModel.swift */; };
+		A005B8C22C6389000045A735 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A005B8C12C6389000045A735 /* NetworkManager.swift */; };
 		A0F8EBB62C60C7D900A4499E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F8EBB52C60C7D900A4499E /* AppDelegate.swift */; };
 		A0F8EBB82C60C7D900A4499E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F8EBB72C60C7D900A4499E /* SceneDelegate.swift */; };
 		A0F8EBBA2C60C7D900A4499E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F8EBB92C60C7D900A4499E /* ViewController.swift */; };
@@ -21,18 +20,6 @@
 		A0F8EBBF2C60C7DA00A4499E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A0F8EBBE2C60C7DA00A4499E /* Assets.xcassets */; };
 		A0F8EBC22C60C7DA00A4499E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A0F8EBC02C60C7DA00A4499E /* LaunchScreen.storyboard */; };
 		A0F8EBCD2C60C7DA00A4499E /* MVVMDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F8EBCC2C60C7DA00A4499E /* MVVMDemoTests.swift */; };
-		A0F8EBEA2C60C87D00A4499E /* MVVMView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F8EBE62C60C87D00A4499E /* MVVMView.swift */; };
-		A0F8EBEB2C60C87D00A4499E /* MVVMViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F8EBE72C60C87D00A4499E /* MVVMViewController.swift */; };
-		A0F8EBEC2C60C87D00A4499E /* MVVMEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F8EBE82C60C87D00A4499E /* MVVMEvent.swift */; };
-		A0F8EBED2C60C87D00A4499E /* MVVMViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F8EBE92C60C87D00A4499E /* MVVMViewModel.swift */; };
-		A0F8EBF52C60D31400A4499E /* LoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F8EBF02C60D31400A4499E /* LoginModel.swift */; };
-		A0F8EBF62C60D31400A4499E /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F8EBF12C60D31400A4499E /* LoginView.swift */; };
-		A0F8EBF72C60D31400A4499E /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F8EBF22C60D31400A4499E /* LoginVC.swift */; };
-		A0F8EBF82C60D31400A4499E /* LoginVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F8EBF32C60D31400A4499E /* LoginVM.swift */; };
-		A0F8EBFC2C60E0A800A4499E /* PayVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F8EBFB2C60E0A800A4499E /* PayVC.swift */; };
-		A0F8EBFE2C60E0B100A4499E /* PayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F8EBFD2C60E0B100A4499E /* PayView.swift */; };
-		A0F8EC002C60E0BB00A4499E /* PayVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F8EBFF2C60E0BB00A4499E /* PayVM.swift */; };
-		A0F8EC022C60E0C400A4499E /* PayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F8EC012C60E0C400A4499E /* PayModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,12 +33,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		A005B8B02C62257D0045A735 /* ContactManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactManager.swift; sourceTree = "<group>"; };
-		A005B8B42C6235750045A735 /* AssetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetManager.swift; sourceTree = "<group>"; };
-		A005B8B72C635A070045A735 /* LoginV1VC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginV1VC.swift; sourceTree = "<group>"; };
-		A005B8B92C635A100045A735 /* LoginV1View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginV1View.swift; sourceTree = "<group>"; };
-		A005B8BB2C635A210045A735 /* LoginV1VM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginV1VM.swift; sourceTree = "<group>"; };
-		A0F1FE8E2C6122330037738F /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		A005B8B72C635A070045A735 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
+		A005B8B92C635A100045A735 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		A005B8BB2C635A210045A735 /* LoginVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVM.swift; sourceTree = "<group>"; };
+		A005B8BF2C63889E0045A735 /* LoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
+		A005B8C12C6389000045A735 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		A0F8EBB22C60C7D900A4499E /* MVVMDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MVVMDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0F8EBB52C60C7D900A4499E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A0F8EBB72C60C7D900A4499E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -62,18 +48,6 @@
 		A0F8EBC32C60C7DA00A4499E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A0F8EBC82C60C7DA00A4499E /* MVVMDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MVVMDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0F8EBCC2C60C7DA00A4499E /* MVVMDemoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MVVMDemoTests.swift; sourceTree = "<group>"; };
-		A0F8EBE62C60C87D00A4499E /* MVVMView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MVVMView.swift; sourceTree = "<group>"; };
-		A0F8EBE72C60C87D00A4499E /* MVVMViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MVVMViewController.swift; sourceTree = "<group>"; };
-		A0F8EBE82C60C87D00A4499E /* MVVMEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MVVMEvent.swift; sourceTree = "<group>"; };
-		A0F8EBE92C60C87D00A4499E /* MVVMViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MVVMViewModel.swift; sourceTree = "<group>"; };
-		A0F8EBF02C60D31400A4499E /* LoginModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginModel.swift; sourceTree = "<group>"; };
-		A0F8EBF12C60D31400A4499E /* LoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
-		A0F8EBF22C60D31400A4499E /* LoginVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
-		A0F8EBF32C60D31400A4499E /* LoginVM.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginVM.swift; sourceTree = "<group>"; };
-		A0F8EBFB2C60E0A800A4499E /* PayVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayVC.swift; sourceTree = "<group>"; };
-		A0F8EBFD2C60E0B100A4499E /* PayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayView.swift; sourceTree = "<group>"; };
-		A0F8EBFF2C60E0BB00A4499E /* PayVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayVM.swift; sourceTree = "<group>"; };
-		A0F8EC012C60E0C400A4499E /* PayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,24 +76,23 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		A005B8B62C6359ED0045A735 /* LoginV1 */ = {
+		A005B8C32C6389080045A735 /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				A005B8B72C635A070045A735 /* LoginV1VC.swift */,
-				A005B8B92C635A100045A735 /* LoginV1View.swift */,
-				A005B8BB2C635A210045A735 /* LoginV1VM.swift */,
+				A005B8B72C635A070045A735 /* LoginVC.swift */,
+				A005B8B92C635A100045A735 /* LoginView.swift */,
+				A005B8BB2C635A210045A735 /* LoginVM.swift */,
+				A005B8BF2C63889E0045A735 /* LoginModel.swift */,
 			);
-			path = LoginV1;
+			path = Login;
 			sourceTree = "<group>";
 		};
-		A0F1FE8D2C6122240037738F /* Managers */ = {
+		A005B8C42C6389120045A735 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
-				A0F1FE8E2C6122330037738F /* NetworkManager.swift */,
-				A005B8B02C62257D0045A735 /* ContactManager.swift */,
-				A005B8B42C6235750045A735 /* AssetManager.swift */,
+				A005B8C12C6389000045A735 /* NetworkManager.swift */,
 			);
-			path = Managers;
+			path = Manager;
 			sourceTree = "<group>";
 		};
 		A0F8EBA92C60C7D900A4499E = {
@@ -144,9 +117,8 @@
 		A0F8EBB42C60C7D900A4499E /* MVVMDemo */ = {
 			isa = PBXGroup;
 			children = (
-				A0F8EBE52C60C87D00A4499E /* Base */,
-				A0F1FE8D2C6122240037738F /* Managers */,
-				A0F8EBFA2C60E07E00A4499E /* Features */,
+				A005B8C42C6389120045A735 /* Manager */,
+				A005B8C32C6389080045A735 /* Login */,
 				A0F8EBB52C60C7D900A4499E /* AppDelegate.swift */,
 				A0F8EBB72C60C7D900A4499E /* SceneDelegate.swift */,
 				A0F8EBB92C60C7D900A4499E /* ViewController.swift */,
@@ -164,49 +136,6 @@
 				A0F8EBCC2C60C7DA00A4499E /* MVVMDemoTests.swift */,
 			);
 			path = MVVMDemoTests;
-			sourceTree = "<group>";
-		};
-		A0F8EBE52C60C87D00A4499E /* Base */ = {
-			isa = PBXGroup;
-			children = (
-				A0F8EBE82C60C87D00A4499E /* MVVMEvent.swift */,
-				A0F8EBE62C60C87D00A4499E /* MVVMView.swift */,
-				A0F8EBE92C60C87D00A4499E /* MVVMViewModel.swift */,
-				A0F8EBE72C60C87D00A4499E /* MVVMViewController.swift */,
-			);
-			path = Base;
-			sourceTree = "<group>";
-		};
-		A0F8EBEE2C60D31400A4499E /* Login */ = {
-			isa = PBXGroup;
-			children = (
-				A0F8EBF22C60D31400A4499E /* LoginVC.swift */,
-				A0F8EBF12C60D31400A4499E /* LoginView.swift */,
-				A0F8EBF32C60D31400A4499E /* LoginVM.swift */,
-				A0F8EBF02C60D31400A4499E /* LoginModel.swift */,
-			);
-			path = Login;
-			sourceTree = "<group>";
-		};
-		A0F8EBF92C60E07000A4499E /* Pay */ = {
-			isa = PBXGroup;
-			children = (
-				A0F8EBFB2C60E0A800A4499E /* PayVC.swift */,
-				A0F8EBFD2C60E0B100A4499E /* PayView.swift */,
-				A0F8EBFF2C60E0BB00A4499E /* PayVM.swift */,
-				A0F8EC012C60E0C400A4499E /* PayModel.swift */,
-			);
-			path = Pay;
-			sourceTree = "<group>";
-		};
-		A0F8EBFA2C60E07E00A4499E /* Features */ = {
-			isa = PBXGroup;
-			children = (
-				A005B8B62C6359ED0045A735 /* LoginV1 */,
-				A0F8EBEE2C60D31400A4499E /* Login */,
-				A0F8EBF92C60E07000A4499E /* Pay */,
-			);
-			path = Features;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -316,27 +245,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A0F8EBF72C60D31400A4499E /* LoginVC.swift in Sources */,
-				A0F8EC002C60E0BB00A4499E /* PayVM.swift in Sources */,
-				A0F8EC022C60E0C400A4499E /* PayModel.swift in Sources */,
 				A0F8EBBA2C60C7D900A4499E /* ViewController.swift in Sources */,
-				A0F1FE8F2C6122330037738F /* NetworkManager.swift in Sources */,
-				A0F8EBEC2C60C87D00A4499E /* MVVMEvent.swift in Sources */,
-				A0F8EBEB2C60C87D00A4499E /* MVVMViewController.swift in Sources */,
-				A0F8EBFE2C60E0B100A4499E /* PayView.swift in Sources */,
+				A005B8C02C63889E0045A735 /* LoginModel.swift in Sources */,
 				A0F8EBB62C60C7D900A4499E /* AppDelegate.swift in Sources */,
-				A0F8EBFC2C60E0A800A4499E /* PayVC.swift in Sources */,
-				A005B8BC2C635A210045A735 /* LoginV1VM.swift in Sources */,
-				A0F8EBF52C60D31400A4499E /* LoginModel.swift in Sources */,
-				A0F8EBEA2C60C87D00A4499E /* MVVMView.swift in Sources */,
+				A005B8BC2C635A210045A735 /* LoginVM.swift in Sources */,
+				A005B8C22C6389000045A735 /* NetworkManager.swift in Sources */,
 				A0F8EBB82C60C7D900A4499E /* SceneDelegate.swift in Sources */,
-				A005B8B52C6235750045A735 /* AssetManager.swift in Sources */,
-				A0F8EBF82C60D31400A4499E /* LoginVM.swift in Sources */,
-				A005B8BA2C635A100045A735 /* LoginV1View.swift in Sources */,
-				A005B8B82C635A070045A735 /* LoginV1VC.swift in Sources */,
-				A005B8B12C62257D0045A735 /* ContactManager.swift in Sources */,
-				A0F8EBED2C60C87D00A4499E /* MVVMViewModel.swift in Sources */,
-				A0F8EBF62C60D31400A4499E /* LoginView.swift in Sources */,
+				A005B8BA2C635A100045A735 /* LoginView.swift in Sources */,
+				A005B8B82C635A070045A735 /* LoginVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

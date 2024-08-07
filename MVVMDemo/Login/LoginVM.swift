@@ -1,5 +1,5 @@
 //
-//  LoginV1VM.swift
+//  LoginVM.swift
 //  MVVMDemo
 //
 //  Created by Wang Ya on 7/8/24.
@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-class LoginV1VM {
+class LoginVM {
     
     let model: LoginModel
         
