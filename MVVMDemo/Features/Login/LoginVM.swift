@@ -28,25 +28,7 @@ class LoginViewModel: BaseViewModel<Void, LoginViewModel.InputFromViewEvent, Log
         case loadingViewHiddenUpdated(value: Bool)
     }
     
-    // State
-    
-    private var loginButtonEnabledState: AnyPublisher<Bool, Never> {
-        return model.usernameSubject.combineLatest(model.passwordSubject).map { (username, password) in
-            // Enable login button only when both username and password are non-empty.
-            return !username.isEmpty && !password.isEmpty
-        }.eraseToAnyPublisher()
-    }
-    
-    private var loginButtonHiddenState: AnyPublisher<Bool, Never> {
-        return loadingSubject.eraseToAnyPublisher()
-    }
-    
-    private var loadingViewHiddenState: AnyPublisher<Bool, Never> {
-        return loadingSubject.map({ !$0 }).eraseToAnyPublisher()
-    }
-    
     // Subjects, should be private. These values ​​can only be changed privately.
-    
     private let loadingSubject = CurrentValueSubject<Bool, Never>(false)
     
     init() {
@@ -65,16 +47,25 @@ class LoginViewModel: BaseViewModel<Void, LoginViewModel.InputFromViewEvent, Log
     }
         
     override var stateList: [AnyPublisher<OutputToViewEvent, Never>] {
+        let loginButtonEnabledState = model.usernameSubject.combineLatest(model.passwordSubject).map { (username, password) in
+            // Enable login button only when both username and password are non-empty.
+            return !username.isEmpty && !password.isEmpty
+        }.map({
+            OutputToViewEvent.loginButtonEnabledUpdated(value: $0)
+        }).eraseToAnyPublisher()
+        
+        let loginButtonHiddenState = loadingSubject.map({
+            OutputToViewEvent.loginButtonHiddenUpdated(value: $0)
+        }).eraseToAnyPublisher()
+        
+        let loadingViewHiddenState = loadingSubject.map({ !$0 }).map({
+            OutputToViewEvent.loadingViewHiddenUpdated(value: $0)
+        }).eraseToAnyPublisher()
+        
         return [
-            loginButtonEnabledState.map({
-                OutputToViewEvent.loginButtonEnabledUpdated(value: $0)
-            }).eraseToAnyPublisher(),
-            loginButtonHiddenState.map({ 
-                OutputToViewEvent.loginButtonHiddenUpdated(value: $0)
-            }).eraseToAnyPublisher(),
-            loadingViewHiddenState.map({ 
-                OutputToViewEvent.loadingViewHiddenUpdated(value: $0)
-            }).eraseToAnyPublisher(),
+            loginButtonEnabledState,
+            loginButtonHiddenState,
+            loadingViewHiddenState,
         ]
     }
     
