@@ -11,7 +11,7 @@ import Combine
 
 class LoginVC: UIViewController {
     
-    let viewModel: LoginVM = {
+    let viewModel: LoginVMProvidable = {
         let model = LoginModel(networkManager: NetworkManager())
         return LoginVM(model: model)
     }()

@@ -8,9 +8,18 @@
 import Foundation
 import Combine
 
-class LoginVM {
+protocol LoginVMProvidable {
+    var model: LoginModelProvidable { get }
+    var presentToNextPageSubject: PassthroughSubject<(), Never> { get }
+    var showAlertSubject: PassthroughSubject<String, Never> { get }
+    var loadingSubject: CurrentValueSubject<Bool, Never> { get }
+    var loginButtonEnabledState: AnyPublisher<Bool, Never> { get }
+    func login()
+}
+
+class LoginVM: LoginVMProvidable {
     
-    let model: LoginModel
+    let model: LoginModelProvidable
         
     // Public Publishers
     var loginButtonEnabledState: AnyPublisher<Bool, Never> {
@@ -26,7 +35,7 @@ class LoginVM {
     
     let showAlertSubject = PassthroughSubject<String, Never>()
     
-    init(model: LoginModel) {
+    init(model: LoginModelProvidable) {
         self.model = model
     }
     
